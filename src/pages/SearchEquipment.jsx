@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./SearchEquipment.css";
+import Navbar from "../ui/Navbar"; // Import the Navbar component
 
 const SearchEquipment = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -83,32 +84,35 @@ const SearchEquipment = () => {
   };
 
   return (
-    <div className="search-equipment-container">
-      <div className="form-group">
-        <label>Search Equipment:</label>
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button onClick={handleSearch}>Search</button>
-      </div>
+    <div>
+      <Navbar /> {/* Include the Navbar component */}
+      <div className="search-equipment-container">
+        <div className="form-group">
+          <label>Search Equipment:</label>
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button onClick={handleSearch}>Search</button>
+        </div>
 
-      <div className="sort-options">
-        <button onClick={() => handleSort("equipmentPrice")}>Sort by Price {sortBy === "equipmentPrice" && `(${sortOrder})`}</button>
-        <button onClick={() => handleSort("equipmentType")}>Sort by Type {sortBy === "equipmentType" && `(${sortOrder})`}</button>
-      </div>
+        <div className="sort-options">
+          <button onClick={() => handleSort("equipmentPrice")}>Sort by Price {sortBy === "equipmentPrice" && `(${sortOrder})`}</button>
+          <button onClick={() => handleSort("equipmentType")}>Sort by Type {sortBy === "equipmentType" && `(${sortOrder})`}</button>
+        </div>
 
-      <div className="equipment-list">
-        {filteredEquipment.map((equipment) => (
-          <div key={equipment.id} className="equipment-item">
-            <p>Name: {equipment.equipmentName}</p>
-            <p>Type: {equipment.equipmentType}</p>
-            <p>Description: {equipment.equipmentDescription}</p>
-            <p>Price: {equipment.equipmentPrice}</p>
-            <p>Company: {companyDetails[equipment.id]}</p>
-          </div>
-        ))}
+        <div className="equipment-list">
+          {filteredEquipment.map((equipment) => (
+            <div key={equipment.id} className="equipment-item">
+              <p>Name: {equipment.equipmentName}</p>
+              <p>Type: {equipment.equipmentType}</p>
+              <p>Description: {equipment.equipmentDescription}</p>
+              <p>Price: {equipment.equipmentPrice}</p>
+              <p>Company: {companyDetails[equipment.id]}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

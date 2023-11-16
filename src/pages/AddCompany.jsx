@@ -38,7 +38,7 @@ const AddCompany = () => {
     setCompanyData((prevData) => {
       if (e.target.name === "selectedAdmin") {
         const selectedAdmin = admins.find((admin) => admin.id === parseInt(e.target.value));
-        return { ...prevData, admins: [selectedAdmin] };
+        return { ...prevData, selectedAdmin };
       }
       return { ...prevData, [e.target.name]: e.target.value };
     });
