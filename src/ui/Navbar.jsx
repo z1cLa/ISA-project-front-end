@@ -13,6 +13,7 @@ const Navbar = () => {
       </Link>
       <div className="nav-links">
         <Link to="/register">Register</Link>
+        <Link to="/edit-account">Edit Account</Link>
       </div>
     </div>
   );

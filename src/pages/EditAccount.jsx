@@ -1,32 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Register.css"; // Import your CSS file
 import Navbar from "../ui/Navbar";
 
-const Register = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    firstName: "",
-    lastName: "",
-    city: "",
-    country: "",
-    phoneNumber: "",
-    proficiency: "",
-    companyInfo: "",
-  });
+const EditAccount = () => {
+    const [formData, setFormData] = useState({
+      email: "",
+      password: "",
+      confirmPassword: "",
+      firstName: "",
+      lastName: "",
+      city: "",
+      country: "",
+      phoneNumber: "",
+      profession: "",
+      companyInfo: "",
+    });
 
   const [errors, setErrors] = useState({});
 
-  const validateEmail = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      setErrors({ ...errors, email: "Invalid email address" });
-    } else {
-      setErrors({ ...errors, email: "" });
-    }
-  };
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        // Replace 'userId' with the actual user ID you want to fetch
+        const userId = 1; // Example user ID
+        const response = await fetch(`http://localhost:8090/api/v1/auth/user/${userId}`);
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch user data: ${response.statusText}`);
+        }
 
+        const userData = await response.json();
+
+        setFormData({
+          email:userData.email || "",
+          password:userData.password || "", // You might not want to pre-fill the password for security reasons
+          confirmPassword:userData.confirmPassword ||  "",
+          firstName: userData.firstName || "",
+          lastName: userData.lastName || "",
+          city: userData.city || "",
+          country: userData.country || "",
+          phoneNumber: userData.phoneNumber || "",
+          profession: userData.profession || "",
+          companyInfo: userData.companyInfo || "",
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUserData();
+  }, []); // Empty dependency array ensures this effect runs only once on mount
   const validatePassword = () => {
     if (formData.password.length < 8) {
       setErrors({
@@ -35,14 +58,6 @@ const Register = () => {
       });
     } else {
       setErrors({ ...errors, password: "" });
-    }
-  };
-
-  const validateConfirmPassword = () => {
-    if (formData.confirmPassword !== formData.password) {
-      setErrors({ ...errors, confirmPassword: "Passwords do not match" });
-    } else {
-      setErrors({ ...errors, confirmPassword: "" });
     }
   };
 
@@ -61,39 +76,28 @@ const Register = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const response = await fetch("http://localhost:8090/api/v1/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-    const data = await response.json();
-    console.log(data);
-  };
+  e.preventDefault();
+  // Assuming you have a userId to identify the user being updated
+  const userId = 1;
+  const response = await fetch(`http://localhost:8090/api/v1/auth/user/${userId}`, {
+    method: "PUT", // Change the method to PUT
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
+  const data = await response.json();
+  console.log(data);
+};
+
 
   return (
     <>
       <Navbar />
       <div className="register-container">
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Email:</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              onBlur={validateEmail}
-              required
-            />
-            {errors.email && (
-              <div className="error-message">{errors.email}</div>
-            )}
-          </div>
 
-          <div className="form-group">
+        <div className="form-group">
             <label>Password:</label>
             <input
               type="password"
@@ -108,20 +112,7 @@ const Register = () => {
             )}
           </div>
 
-          <div className="form-group">
-            <label>Confirm Password:</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              onBlur={validateConfirmPassword}
-              required
-            />
-            {errors.confirmPassword && (
-              <div className="error-message">{errors.confirmPassword}</div>
-            )}
-          </div>
+          {/* Add similar blocks for confirmPassword, firstName, lastName, city, country, phoneNumber, proficiency, and companyInfo */}
 
           <div className="form-group">
             <label>First Name:</label>
@@ -177,6 +168,8 @@ const Register = () => {
             {errors.city && <div className="error-message">{errors.city}</div>}
           </div>
 
+          {/* Add similar blocks for phoneNumber, proficiency, and companyInfo */}
+
           <div className="form-group">
             <label>Phone Number:</label>
             <input
@@ -219,10 +212,8 @@ const Register = () => {
             )}
           </div>
 
-          {/* Add similar blocks for confirmPassword, firstName, lastName, city, country, phoneNumber, proficiency, and companyInfo */}
-
           <div className="form-group">
-            <button type="submit">Register</button>
+            <button type="submit">Update</button>
           </div>
         </form>
       </div>
@@ -230,4 +221,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default EditAccount;
