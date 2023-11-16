@@ -213,6 +213,16 @@ const EditAccount = () => {
           </div>
 
           <div className="form-group">
+           <label>Penalty Points:</label>
+           <span>{/* Add logic to display penalty points */}0</span>
+          </div>
+
+         <div className="form-group">
+          <label>User Category:</label>
+          <span>{/* Add logic to display user category */}Bronze</span>
+         </div>
+
+          <div className="form-group">
             <button type="submit">Update</button>
           </div>
         </form>
