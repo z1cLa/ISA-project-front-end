@@ -3,6 +3,7 @@ import "./App.css";
 
 import Register from "./pages/Register";
 import Home from "./pages/Home";
+import UpdateCompany from "./pages/UpdateCompany";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route index path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/editCompany" element={<UpdateCompany />} />
       </Routes>
     </BrowserRouter>
   );
