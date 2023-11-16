@@ -1,0 +1,50 @@
+/* SearchEquipment.css */
+.search-equipment-container {
+    width: 600px;
+    margin: 50px auto;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+      "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  }
+  
+  input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    border: 1px solid #999;
+  }
+  
+  button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border: 1px solid darkgreen;
+    border-radius: 8px;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+      "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  
+  .equipment-list {
+    margin-top: 20px;
+  }
+  
+  .equipment-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+  }
+  
