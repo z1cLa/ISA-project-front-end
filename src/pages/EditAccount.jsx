@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./Register.css"; // Import your CSS file
 import Navbar from "../ui/Navbar";
+import toastr from 'toastr';
+import 'toastr/build/toastr.css';
 
 const EditAccount = () => {
     const [formData, setFormData] = useState({
@@ -15,6 +17,13 @@ const EditAccount = () => {
       profession: "",
       companyInfo: "",
     });
+
+    toastr.options = {
+        positionClass: 'toast-top-right',
+        hideDuration: 300,
+        timeOut: 3000,
+        closeButton: true,
+      };
 
   const [errors, setErrors] = useState({});
 
@@ -86,6 +95,7 @@ const EditAccount = () => {
     },
     body: JSON.stringify(formData),
   });
+  toastr.success('Updated')
   const data = await response.json();
   console.log(data);
 };
