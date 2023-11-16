@@ -16,6 +16,9 @@ const Navbar = () => {
         <Link to="/add-company">Add Company</Link>
         <Link to="/search-equipment">Search Equipment</Link>
       </div>
+      <div className="nav-links">
+        <Link to="/editCompany">Update company</Link>
+      </div>
     </div>
   );
 };
