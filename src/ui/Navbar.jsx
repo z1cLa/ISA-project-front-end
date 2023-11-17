@@ -17,6 +17,7 @@ const Navbar = () => {
         <Link to="/add-company">Add Company</Link>
         <Link to="/editCompany">Update company</Link>
         <Link to="/search-equipment">Search Equipment</Link>
+        <Link to="/search-companies">Search Companies</Link>
       </div>
       <div className="nav-links">
 

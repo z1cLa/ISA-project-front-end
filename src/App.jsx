@@ -7,6 +7,7 @@ import EditAccount from "./pages/EditAccount";
 import AddCompany from "./pages/AddCompany";
 import SearchEquipment from "./pages/SearchEquipment";
 import UpdateCompany from "./pages/UpdateCompany";
+import SearchCompanies from "./pages/SearchCompanies";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/add-company" element={<AddCompany />} />
         <Route path="/search-equipment" element={<SearchEquipment />} />
         <Route path="/editCompany" element={<UpdateCompany />} />
+        <Route path="/search-companies" element={<SearchCompanies />} />
       </Routes>
     </BrowserRouter>
   );
