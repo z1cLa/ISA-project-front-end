@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import EditAccount from "./pages/EditAccount";
 import AddCompany from "./pages/AddCompany";
 import SearchEquipment from "./pages/SearchEquipment";
+import CompanyOverview from "./pages/CompanyOverview";
 import UpdateCompany from "./pages/UpdateCompany";
 import SearchCompanies from "./pages/SearchCompanies";
 
@@ -18,7 +19,8 @@ function App() {
         <Route path="/edit-account" element={<EditAccount />} />
         <Route path="/add-company" element={<AddCompany />} />
         <Route path="/search-equipment" element={<SearchEquipment />} />
-        <Route path="/editCompany" element={<UpdateCompany />} />
+        <Route path="/company" element={<CompanyOverview />} />
+        <Route path="/edit-company" element={<UpdateCompany />} />
         <Route path="/search-companies" element={<SearchCompanies />} />
       </Routes>
     </BrowserRouter>

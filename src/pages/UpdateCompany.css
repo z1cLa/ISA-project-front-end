@@ -112,6 +112,7 @@
     cursor: pointer;
     border-radius: 6px;
     transition: all .3s;
+    text-decoration: none;
   }
   
   .form-container .form-submit-btn:hover {

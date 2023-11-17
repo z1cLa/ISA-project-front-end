@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./UpdateCompany.css"; 
 import Navbar from "../ui/Navbar";
 import toastr from 'toastr';
-import 'toastr/build/toastr.css'; // Import the CSS file
+import 'toastr/build/toastr.css';
 
 const EditCompany = () => {
     const [formData, setFormData] = useState({
@@ -39,7 +39,7 @@ const EditCompany = () => {
           address:userData.address || "", 
           description: userData.description || "",
           averageGrade: userData.averageGrade || "",
-          appointmentId: userData.appointmentId || ""
+
         });
       } catch (error) {
         console.error(error);
@@ -79,6 +79,7 @@ const EditCompany = () => {
         name="companyName"
         value={formData.companyName}
         onChange={handleChange}
+        required
       />
       <label>Company name</label>
     </div>
@@ -88,6 +89,7 @@ const EditCompany = () => {
         name="address"
         value={formData.address}
         onChange={handleChange}
+        required
       />
       <label>Address</label>
     </div>
@@ -97,6 +99,7 @@ const EditCompany = () => {
         name="description"
         value={formData.description}
         onChange={handleChange}
+        required
       />
       <label>Description</label>
     </div>
@@ -106,21 +109,14 @@ const EditCompany = () => {
         name="averageGrade"
         value={formData.averageGrade}
         onChange={handleChange}
+        required
       />
       <label>Average grade</label>
     </div>
-    <div className="form-group">
-      <input
-        type="text"
-        name="appointmentId"
-        value={formData.appointmentId}
-        onChange={handleChange}
-      />
-      <label>Appointment id</label>
-    </div>
+
 
     <div className="center">
-      <button type="submit" class="form-submit-btn">Update</button>
+      <button type="submit" className="form-submit-btn">Update</button>
     </div>
   </form>
 </div>
