@@ -19,8 +19,25 @@
   color: white;
   margin-left: 20px;
   font-weight: bold;
+  position: relative;
 }
 
-.nav-links a:hover {
-  text-decoration: underline;
+.nav-links a::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px; /* Adjust the thickness of the underline */
+  background: #dddddd; /* Color of the underline */
+  transition: width 0.5s ease; /* Adjust the duration and timing function as needed */
+}
+
+.nav-links a:hover::before {
+  width: 100%;
+}
+
+.nav-links  :hover{
+  color: #dddddd;
+  transition: all .5s;
 }
