@@ -11,7 +11,7 @@
 }
 
 .logo img {
-  height: 40px; /* Adjust the height as needed */
+  height: 40px; 
 }
 
 .nav-links a {
@@ -28,9 +28,9 @@
   bottom: 0;
   left: 0;
   width: 0;
-  height: 1px; /* Adjust the thickness of the underline */
-  background: #dddddd; /* Color of the underline */
-  transition: width 0.5s ease; /* Adjust the duration and timing function as needed */
+  height: 1px; 
+  background: #dddddd; 
+  transition: width 0.5s ease; 
 }
 
 .nav-links a:hover::before {
