@@ -9,7 +9,7 @@ const AddCompany = () => {
     address: "",
     description: "",
     averageGrade: 0.0,
-    selectedAdmin: null,
+    admins: [], // Change the field name to selectedAdmins and initialize as an array
   });
 
   const [admins, setAdmins] = useState([]);
@@ -35,14 +35,17 @@ const AddCompany = () => {
   }, []);
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+  
     setCompanyData((prevData) => {
-      if (e.target.name === "selectedAdmin") {
-        const selectedAdmin = admins.find((admin) => admin.id === parseInt(e.target.value));
-        return { ...prevData, selectedAdmin };
+      if (name === "selectedAdmin") {
+        const selectedAdmin = admins.find((admin) => admin.id === parseInt(value));
+        return { ...prevData, admins: [selectedAdmin] };
       }
-      return { ...prevData, [e.target.name]: e.target.value };
+      return { ...prevData, [name]: value };
     });
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -129,7 +132,7 @@ const AddCompany = () => {
             <label>Select Admin:</label>
             <select
               name="selectedAdmin"
-              value={companyData.selectedAdmin ? companyData.selectedAdmin.id : ""}
+              value={companyData.admins.length > 0 ? companyData.admins[0].id : ""}
               onChange={handleChange}
             >
               <option value={null}>Select Admin</option>
