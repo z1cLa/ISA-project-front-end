@@ -53,7 +53,7 @@ const CompanyOverview = () => {
 
         const fetchEquipmentData = async () => {
             try {
-                const companyId = 1; // Replace with the actual company ID
+                const companyId = 1; // for now
                 const response = await fetch(`http://localhost:8090/api/v1/equipment/company/${companyId}`);
     
                 if (!response.ok) {
@@ -67,25 +67,28 @@ const CompanyOverview = () => {
             }
         };
 
+        const fetchAdminsData = async () => {
+          try {
+              const companyId = 1; // for now
+              const response = await fetch(`http://localhost:8090/api/v1/company/${companyId}/admins`);
+      
+              if (!response.ok) {
+                  throw new Error(`Failed to fetch admins data: ${response.statusText}`);
+              }
+      
+              const adminsData = await response.json();
+              setAdmins(adminsData);
+          } catch (error) {
+              console.error(error);
+          }
+      };
+
         fetchCompanyData();
         fetchEquipmentData();
+        fetchAdminsData();
     }, []); 
 
-    const fetchAdminsData = async () => {
-        try {
-            const companyId = 1; // Replace with the actual company ID
-            const response = await fetch(`http://localhost:8090/api/v1/company/${companyId}/admins`);
-    
-            if (!response.ok) {
-                throw new Error(`Failed to fetch admins data: ${response.statusText}`);
-            }
-    
-            const adminsData = await response.json();
-            setAdmins(adminsData);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+
 
     const handlePopupToggle = () => {
         if (equipment.length === 0) {
@@ -120,7 +123,6 @@ const CompanyOverview = () => {
             toastr.warning("There are no admins available.");
             return;
         }
-        fetchAdminsData();
         handleAdminPopupToggle(); // Optionally, open the admin popup after fetching admins data
     };
 
