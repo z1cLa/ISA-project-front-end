@@ -123,10 +123,9 @@ const CompanyOverview = () => {
             toastr.warning("There are no admins available.");
             return;
         }
-        handleAdminPopupToggle(); // Optionally, open the admin popup after fetching admins data
+        handleAdminPopupToggle();
     };
 
-    // Equipment Popup Component
     const EquipmentPopup = () => (
         <div className={`popup ${equipmentPopupOpen ? 'open' : ''}`}>
             <div className="popup-content">
@@ -149,7 +148,6 @@ const CompanyOverview = () => {
         </div>
     );
 
-    // Admin Popup Component
     const AdminPopup = () => (
         <div className={`popup ${adminPopupOpen ? 'open' : ''}`}>
             <div className="popup-content">

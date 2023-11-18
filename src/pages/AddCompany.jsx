@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./AddCompany.css";
 import Navbar from "../ui/Navbar";
 import { useNavigate } from "react-router-dom";
+import toastr from 'toastr';
+import 'toastr/build/toastr.css';
 
 const AddCompany = () => {
   const [companyData, setCompanyData] = useState({
@@ -11,6 +13,13 @@ const AddCompany = () => {
     averageGrade: 0.0,
     admins: [], // Change the field name to selectedAdmins and initialize as an array
   });
+
+  toastr.options = {
+    positionClass: 'toast-top-right',
+    hideDuration: 300,
+    timeOut: 3000,
+    closeButton: true,
+  };
 
   const [admins, setAdmins] = useState([]);
   const [errors, setErrors] = useState({});
@@ -60,6 +69,7 @@ const AddCompany = () => {
     if (response.ok) {
       console.log("Company posted successfully");
       console.log(companyData);
+      toastr.success('Company created successful')   
       navigate("/");
     } else {
       const data = await response.json();
@@ -145,7 +155,7 @@ const AddCompany = () => {
           </div>
 
           <div className="form-group">
-            <button type="submit">Post Company</button>
+            <button className="form-submit-btn" type="submit">Post Company</button>
           </div>
         </form>
       </div>

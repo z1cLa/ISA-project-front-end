@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./Register.css"; // Import your CSS file
+import "./EditAccount.css"; 
 import Navbar from "../ui/Navbar";
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
@@ -104,41 +104,39 @@ const EditAccount = () => {
   return (
     <>
       <Navbar />
-      <div className="register-container">
-        <form onSubmit={handleSubmit}>
+      <div className="edit-container">
+  <form onSubmit={handleSubmit} className="two-column-form">
 
-        <div className="form-group">
-            <label>Password:</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              onBlur={validatePassword}
-              required
-            />
-            {errors.password && (
-              <div className="error-message">{errors.password}</div>
-            )}
-          </div>
+    <div className="form-group">
+      <label>Password:</label>
+      <input
+        type="password"
+        name="password"
+        value={formData.password}
+        onChange={handleChange}
+        onBlur={validatePassword}
+        required
+      />
+      {errors.password && (
+        <div className="error-message">{errors.password}</div>
+      )}
+    </div>
 
-          {/* Add similar blocks for confirmPassword, firstName, lastName, city, country, phoneNumber, proficiency, and companyInfo */}
+    <div className="form-group">
+      <label>First Name:</label>
+      <input
+        type="text"
+        name="firstName"
+        value={formData.firstName}
+        onChange={handleChange}
+        required
+      />
+      {errors.firstName && (
+        <div className="error-message">{errors.firstName}</div>
+      )}
+    </div>
 
-          <div className="form-group">
-            <label>First Name:</label>
-            <input
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              required
-            />
-            {errors.firstName && (
-              <div className="error-message">{errors.firstName}</div>
-            )}
-          </div>
-
-          <div className="form-group">
+    <div className="form-group">
             <label>Last Name:</label>
             <input
               type="text"
@@ -177,8 +175,6 @@ const EditAccount = () => {
             />
             {errors.city && <div className="error-message">{errors.city}</div>}
           </div>
-
-          {/* Add similar blocks for phoneNumber, proficiency, and companyInfo */}
 
           <div className="form-group">
             <label>Phone Number:</label>
@@ -227,16 +223,16 @@ const EditAccount = () => {
            <span>{/* Add logic to display penalty points */}0</span>
           </div>
 
-         <div className="form-group">
-          <label>User Category:</label>
-          <span>{/* Add logic to display user category */}Bronze</span>
-         </div>
+    <div className="form-group">
+      <label>User Category:</label>
+      <span>{/* Add logic to display user category */}Bronze</span>
+    </div>
 
-          <div className="form-group">
-            <button type="submit">Update</button>
-          </div>
-        </form>
-      </div>
+    <div className="form-group">
+      <button className="form-submit-btn" type="submit">Update</button>
+    </div>
+  </form>
+</div>
     </>
   );
 };

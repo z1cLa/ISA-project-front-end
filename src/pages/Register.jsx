@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import "./Register.css"; // Import your CSS file
+import "./Register.css"; 
 import Navbar from "../ui/Navbar";
+import toastr from 'toastr';
+import 'toastr/build/toastr.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +17,13 @@ const Register = () => {
     proficiency: "",
     companyInfo: "",
   });
+
+  toastr.options = {
+    positionClass: 'toast-top-right',
+    hideDuration: 300,
+    timeOut: 3000,
+    closeButton: true,
+  };
 
   const [errors, setErrors] = useState({});
 
@@ -71,13 +80,14 @@ const Register = () => {
     });
     const data = await response.json();
     console.log(data);
+    toastr.success('Registred successful');
   };
 
   return (
     <>
       <Navbar />
       <div className="register-container">
-        <form onSubmit={handleSubmit}>
+        <form className="form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Email:</label>
             <input
@@ -219,10 +229,8 @@ const Register = () => {
             )}
           </div>
 
-          {/* Add similar blocks for confirmPassword, firstName, lastName, city, country, phoneNumber, proficiency, and companyInfo */}
-
           <div className="form-group">
-            <button type="submit">Register</button>
+            <button className="form-submit-btn" type="submit">Register</button>
           </div>
         </form>
       </div>

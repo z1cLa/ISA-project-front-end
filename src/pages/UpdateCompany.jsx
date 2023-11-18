@@ -68,7 +68,7 @@ const EditCompany = () => {
       },
       body: JSON.stringify(formData),
     });
-    toastr.success('Updated')    
+    toastr.success('Company updated successful')    
     navigate("/company");
   };
 

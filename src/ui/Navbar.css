@@ -1,26 +1,32 @@
 .navbar {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   background-color: #333;
   color: white;
-  margin: 0;
 }
 
 .logo img {
-  height: 40px; 
+  height: 40px;
+  margin-bottom: 10px; /* Added margin to the logo for better spacing on smaller screens */
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
 }
 
 .nav-links a {
   text-decoration: none;
   color: white;
-  margin-left: 20px;
   font-weight: bold;
-  position: relative;
   font-size: 14px;
+  margin: 5px 10px; /* Adjusted margin for better spacing on smaller screens */
+  position: relative;
 }
 
 .nav-links a::before {
@@ -29,16 +35,36 @@
   bottom: 0;
   left: 0;
   width: 0;
-  height: 1px; 
-  background: #dddddd; 
-  transition: width 0.5s ease; 
+  height: 1px;
+  background: #dddddd;
+  transition: width 0.5s ease;
 }
 
 .nav-links a:hover::before {
   width: 100%;
 }
 
-.nav-links  :hover{
+.nav-links a:hover {
   color: #dddddd;
-  transition: all .5s;
+}
+
+@media (max-width: 430px) {
+  .navbar {
+    text-align: center;
+  }
+
+  .nav-links {
+    flex-basis: 100%;
+    order: 2;
+    margin-top: 10px;
+  }
+
+  .nav-links a {
+    margin: 5px 0;
+  }
+
+  .logo {
+    order: 1;
+    margin-bottom: 10px;
+  }
 }
