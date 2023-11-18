@@ -3,8 +3,10 @@ import "./UpdateCompany.css";
 import Navbar from "../ui/Navbar";
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
+import { useNavigate } from "react-router-dom";
 
 const EditCompany = () => {
+  const navigate = useNavigate();
     const [formData, setFormData] = useState({
       companyName: "",
       address: "",
@@ -55,6 +57,7 @@ const EditCompany = () => {
   
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     const companyId = 1;
@@ -65,7 +68,8 @@ const EditCompany = () => {
       },
       body: JSON.stringify(formData),
     });
-    toastr.success('Updated')
+    toastr.success('Updated')    
+    navigate("/company");
   };
 
   return(
