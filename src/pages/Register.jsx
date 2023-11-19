@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import "./Register.css"; 
+import "./Register.css";
 import Navbar from "../ui/Navbar";
-import toastr from 'toastr';
-import 'toastr/build/toastr.css';
+import toastr from "toastr";
+import "toastr/build/toastr.css";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -14,12 +14,12 @@ const Register = () => {
     city: "",
     country: "",
     phoneNumber: "",
-    proficiency: "",
+    profession: "",
     companyInfo: "",
   });
 
   toastr.options = {
-    positionClass: 'toast-top-right',
+    positionClass: "toast-top-right",
     hideDuration: 300,
     timeOut: 3000,
     closeButton: true,
@@ -71,6 +71,14 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (
+      errors.email !== "" ||
+      errors.password !== "" ||
+      errors.confirmPassword !== "" ||
+      errors.phoneNumber !== ""
+    ) {
+      return;
+    }
     const response = await fetch("http://localhost:8090/api/v1/auth/register", {
       method: "POST",
       headers: {
@@ -80,7 +88,7 @@ const Register = () => {
     });
     const data = await response.json();
     console.log(data);
-    toastr.success('Registred successful');
+    toastr.success("Registred successful");
   };
 
   return (
@@ -230,7 +238,9 @@ const Register = () => {
           </div>
 
           <div className="form-group">
-            <button className="form-submit-btn" type="submit">Register</button>
+            <button className="form-submit-btn" type="submit">
+              Register
+            </button>
           </div>
         </form>
       </div>
