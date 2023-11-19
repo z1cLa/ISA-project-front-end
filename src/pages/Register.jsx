@@ -3,6 +3,7 @@ import "./Register.css";
 import Navbar from "../ui/Navbar";
 import toastr from "toastr";
 import "toastr/build/toastr.css";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -24,6 +25,8 @@ const Register = () => {
     timeOut: 3000,
     closeButton: true,
   };
+
+  const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
 
@@ -79,7 +82,7 @@ const Register = () => {
     ) {
       return;
     }
-    const response = await fetch("http://localhost:8090/api/v1/auth/register", {
+    const response = await fetch("http://localhost:8095/api/v1/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -88,7 +91,8 @@ const Register = () => {
     });
     const data = await response.json();
     console.log(data);
-    toastr.success("Registred successful");
+    toastr.success("Check " + formData.email + " to verify your account.");
+    navigate("/");
   };
 
   return (
