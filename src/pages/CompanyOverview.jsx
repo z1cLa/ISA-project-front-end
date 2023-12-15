@@ -193,6 +193,9 @@ const CompanyOverview = () => {
                 <Link to="/edit-company" className="link">
                     <button className="form-submit-btn">Update company</button>
                 </Link>
+                <Link to="/add-appointment" className="link">
+                    <button className="form-submit-btn">Add appointment</button>
+                </Link>
             </div>
         </>
     );

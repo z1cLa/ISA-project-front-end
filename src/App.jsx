@@ -9,6 +9,7 @@ import SearchEquipment from "./pages/SearchEquipment";
 import CompanyOverview from "./pages/CompanyOverview";
 import UpdateCompany from "./pages/UpdateCompany";
 import SearchCompanies from "./pages/SearchCompanies";
+import AddAppointment from "./pages/AddAppointment";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/company" element={<CompanyOverview />} />
         <Route path="/edit-company" element={<UpdateCompany />} />
         <Route path="/search-companies" element={<SearchCompanies />} />
+        <Route path="/add-appointment" element={<AddAppointment />} />
       </Routes>
     </BrowserRouter>
   );
