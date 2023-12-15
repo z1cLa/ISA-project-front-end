@@ -107,16 +107,7 @@ const EditCompany = () => {
       />
       <label>Description</label>
     </div>
-    <div className="form-group">
-      <input
-        type="text"
-        name="averageGrade"
-        value={formData.averageGrade}
-        onChange={handleChange}
-        required
-      />
-      <label>Average grade</label>
-    </div>
+
 
 
     <div className="center">
