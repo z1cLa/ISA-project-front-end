@@ -5,6 +5,7 @@ import Navbar from "../ui/Navbar";
 import toastr from 'toastr';
 import 'toastr/build/toastr.css'; 
 
+
 const CompanyOverview = () => {
     const [formData, setFormData] = useState({
       companyName: "",
@@ -19,6 +20,7 @@ const CompanyOverview = () => {
     const [equipmentPopupOpen, setEquipmentPopupOpen] = useState(false);
     const [adminPopupOpen, setAdminPopupOpen] = useState(false);
     const [selectedEquipmentIndex, setSelectedEquipmentIndex] = useState(0);
+    const [editMode, setEditMode] = useState(false);
 
     toastr.options = {
         positionClass: 'toast-top-right',
@@ -55,11 +57,11 @@ const CompanyOverview = () => {
             try {
                 const companyId = 1; // for now
                 const response = await fetch(`http://localhost:8090/api/v1/equipment/company/${companyId}`);
-    
+        
                 if (!response.ok) {
                     throw new Error(`Failed to fetch equipment data: ${response.statusText}`);
                 }
-    
+        
                 const equipmentData = await response.json();
                 setEquipment(equipmentData);
             } catch (error) {
@@ -87,7 +89,6 @@ const CompanyOverview = () => {
         fetchEquipmentData();
         fetchAdminsData();
     }, []); 
-
 
 
     const handlePopupToggle = () => {
@@ -126,26 +127,146 @@ const CompanyOverview = () => {
         handleAdminPopupToggle();
     };
 
+    const handleDeleteEquipment = async () => {
+        try {
+          const equipmentIdToDelete = equipment[selectedEquipmentIndex]?.id;
+    
+          if (!equipmentIdToDelete) {
+            toastr.warning("No equipment selected for deletion.");
+            return;
+          }
+    
+          const response = await fetch(`http://localhost:8090/api/v1/equipment/delete/${equipmentIdToDelete}`, {
+            method: 'DELETE',
+          });
+    
+          if (response.ok) {
+            // Remove the deleted equipment from the state
+            const updatedEquipment = equipment.filter((_, index) => index !== selectedEquipmentIndex);
+            setEquipment(updatedEquipment);
+    
+            toastr.success("Equipment deleted successfully.");
+          } else {
+            toastr.error("Failed to delete equipment. Please try again.");
+          }
+        } catch (error) {
+          console.error("Error deleting equipment:", error);
+          toastr.error("An error occurred while deleting equipment.");
+        } finally {
+          // Close the equipment popup
+          handlePopupToggle();
+        }
+      };
+
+      const handleUpdateEquipment = async () => {
+        try {
+            const equipmentId = equipment[selectedEquipmentIndex]?.id;
+            alert(equipmentId);
+
+            if (!equipmentId) {
+                toastr.warning("No equipment selected for update.");
+                return;
+            }
+    
+            const response = await fetch(`http://localhost:8090/api/v1/equipment/update/${equipmentId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(equipment[selectedEquipmentIndex]),
+            });
+    
+            if (response.ok) {
+                // Optionally, you can update the local state with the updated data
+                const updatedEquipment = [...equipment];
+                // Assuming the server returns updated data, replace the existing equipment
+                updatedEquipment[selectedEquipmentIndex] = await response.json();
+                setEquipment(updatedEquipment);
+    
+                toastr.success('Equipment updated successfully.');
+            } else {
+                toastr.error("Failed to update equipment. Please try again.");
+            }
+        } catch (error) {
+            console.error("Error updating equipment:", error);
+            toastr.error("An error occurred while updating equipment.");
+        } finally {
+            // Close the equipment popup
+            handlePopupToggle();
+        }
+    };
+    
+      
+
+      const handleEditToggle = () => {
+        if(editMode)
+        {
+        toastr.success('Ugasen!')
+        
+        //TODO: OVDE DODATI DA UPDATEUJE TAJ EQUIPMENT BAJO
+        }
+        else{
+            toastr.success('Upaljen') 
+        }
+        setEditMode(!editMode);
+      };
+
+      const handleInputChange = (e, fieldName) => {
+        const updatedEquipment = [...equipment];
+        updatedEquipment[selectedEquipmentIndex][fieldName] = e.target.value;
+        setEquipment(updatedEquipment);
+    };
+
     const EquipmentPopup = () => (
         <div className={`popup ${equipmentPopupOpen ? 'open' : ''}`}>
-            <div className="popup-content">
-                <p>Equipment {selectedEquipmentIndex + 1}</p>
-                <p>Equipment Name: {equipment[selectedEquipmentIndex]?.equipmentName}</p>
-                <p>Equipment Type: {equipment[selectedEquipmentIndex]?.equipmentType}</p>
-                <p>Equipment Description: {equipment[selectedEquipmentIndex]?.equipmentDescription}</p>
-                <p>Equipment Price: {equipment[selectedEquipmentIndex]?.equipmentPrice}</p>
-            </div>
-
-            <button className="navigation-btn previous" onClick={handlePrevEquipment}>
-                Previous
-            </button>
-            <button className="navigation-btn next" onClick={handleNextEquipment}>
-                Next
-            </button>
-            <button className="form-submit-btn" onClick={handlePopupToggle}>
-                Close
-            </button>
+        <div className="popup-content">
+          <h2>Equipment {selectedEquipmentIndex + 1}</h2>
+      
+          <p>Equipment Name:</p>
+          <input
+            className="equipInput"
+            disabled={!editMode}
+            defaultValue={equipment[selectedEquipmentIndex]?.equipmentName}
+          />
+          <p>Equipment Type:</p>
+          <input 
+          className="equipInput" 
+          disabled={!editMode} 
+          defaultValue={equipment[selectedEquipmentIndex]?.equipmentType}
+          />
+          <p>Equipment Description:</p>
+          <input
+          className="equipInput"
+          disabled={!editMode}
+          defaultValue={equipment[selectedEquipmentIndex]?.equipmentDescription}
+          />
+          <p>Equipment Price:</p>
+          <input
+          className="equipInput"
+          disabled={!editMode}
+          defaultValue={equipment[selectedEquipmentIndex]?.equipmentPrice}
+          />
         </div>
+
+        <button className="navigation-btn previous" onClick={handlePrevEquipment}>
+          Previous
+        </button>
+        <button className="navigation-btn next" onClick={handleNextEquipment}>
+          Next
+        </button>
+        <button className="form-submit-btn" onClick={handleEditToggle}>
+          {editMode ? 'Disable' : 'Enable'}
+        </button>
+        <button className="form-submit-btn" onClick={handleUpdateEquipment}>
+        Update Equipment
+        </button>
+        <button className="form-submit-btn" onClick={handleDeleteEquipment}>
+          Delete this equipment
+        </button>
+        <button className="form-submit-btn" onClick={handlePopupToggle}>
+          Close
+        </button>
+      </div>
     );
 
     const AdminPopup = () => (
