@@ -14,13 +14,14 @@ const CompanyOverview = () => {
       averageGrade: "",
       appointmentId: ""
     });
-
+    
     const [equipment, setEquipment] = useState([]);
     const [admins, setAdmins] = useState([]);
     const [equipmentPopupOpen, setEquipmentPopupOpen] = useState(false);
     const [adminPopupOpen, setAdminPopupOpen] = useState(false);
     const [selectedEquipmentIndex, setSelectedEquipmentIndex] = useState(0);
-    const [editMode, setEditMode] = useState(false);
+    const companyId = 1;
+
 
     toastr.options = {
         positionClass: 'toast-top-right',
@@ -32,7 +33,7 @@ const CompanyOverview = () => {
     useEffect(() => {
         const fetchCompanyData = async () => {
             try {
-                const companyId = 1; //for now
+                 //for now
                 const response = await fetch(`http://localhost:8090/api/v1/company/${companyId}`);
                 
                 if (!response.ok) {
@@ -55,7 +56,7 @@ const CompanyOverview = () => {
 
         const fetchEquipmentData = async () => {
             try {
-                const companyId = 1; // for now
+                 // for now
                 const response = await fetch(`http://localhost:8090/api/v1/equipment/company/${companyId}`);
         
                 if (!response.ok) {
@@ -71,7 +72,7 @@ const CompanyOverview = () => {
 
         const fetchAdminsData = async () => {
           try {
-              const companyId = 1; // for now
+               // for now
               const response = await fetch(`http://localhost:8090/api/v1/company/${companyId}/admins`);
       
               if (!response.ok) {
@@ -158,95 +159,16 @@ const CompanyOverview = () => {
         }
       };
 
-      const handleUpdateEquipment = async () => {
-        try {
-            const equipmentId = equipment[selectedEquipmentIndex]?.id;
-            alert(equipmentId);
-
-            if (!equipmentId) {
-                toastr.warning("No equipment selected for update.");
-                return;
-            }
-    
-            const response = await fetch(`http://localhost:8090/api/v1/equipment/update/${equipmentId}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(equipment[selectedEquipmentIndex]),
-            });
-    
-            if (response.ok) {
-                // Optionally, you can update the local state with the updated data
-                const updatedEquipment = [...equipment];
-                // Assuming the server returns updated data, replace the existing equipment
-                updatedEquipment[selectedEquipmentIndex] = await response.json();
-                setEquipment(updatedEquipment);
-    
-                toastr.success('Equipment updated successfully.');
-            } else {
-                toastr.error("Failed to update equipment. Please try again.");
-            }
-        } catch (error) {
-            console.error("Error updating equipment:", error);
-            toastr.error("An error occurred while updating equipment.");
-        } finally {
-            // Close the equipment popup
-            handlePopupToggle();
-        }
-    };
-    
       
-
-      const handleEditToggle = () => {
-        if(editMode)
-        {
-        toastr.success('Ugasen!')
-        
-        //TODO: OVDE DODATI DA UPDATEUJE TAJ EQUIPMENT BAJO
-        }
-        else{
-            toastr.success('Upaljen') 
-        }
-        setEditMode(!editMode);
-      };
-
-      const handleInputChange = (e, fieldName) => {
-        const updatedEquipment = [...equipment];
-        updatedEquipment[selectedEquipmentIndex][fieldName] = e.target.value;
-        setEquipment(updatedEquipment);
-    };
-
     const EquipmentPopup = () => (
         <div className={`popup ${equipmentPopupOpen ? 'open' : ''}`}>
-        <div className="popup-content">
-          <h2>Equipment {selectedEquipmentIndex + 1}</h2>
-      
-          <p>Equipment Name:</p>
-          <input
-            className="equipInput"
-            disabled={!editMode}
-            defaultValue={equipment[selectedEquipmentIndex]?.equipmentName}
-          />
-          <p>Equipment Type:</p>
-          <input 
-          className="equipInput" 
-          disabled={!editMode} 
-          defaultValue={equipment[selectedEquipmentIndex]?.equipmentType}
-          />
-          <p>Equipment Description:</p>
-          <input
-          className="equipInput"
-          disabled={!editMode}
-          defaultValue={equipment[selectedEquipmentIndex]?.equipmentDescription}
-          />
-          <p>Equipment Price:</p>
-          <input
-          className="equipInput"
-          disabled={!editMode}
-          defaultValue={equipment[selectedEquipmentIndex]?.equipmentPrice}
-          />
-        </div>
+            <div className="popup-content">
+                <h2>Equipment {selectedEquipmentIndex + 1}</h2>
+                <p>Equipment Name: {equipment[selectedEquipmentIndex]?.equipmentName}</p>
+                <p>Equipment Type: {equipment[selectedEquipmentIndex]?.equipmentType}</p>
+                <p>Equipment Description: {equipment[selectedEquipmentIndex]?.equipmentDescription}</p>
+                <p>Equipment Price: {equipment[selectedEquipmentIndex]?.equipmentPrice}</p>
+            </div>
 
         <button className="navigation-btn previous" onClick={handlePrevEquipment}>
           Previous
@@ -254,12 +176,11 @@ const CompanyOverview = () => {
         <button className="navigation-btn next" onClick={handleNextEquipment}>
           Next
         </button>
-        <button className="form-submit-btn" onClick={handleEditToggle}>
-          {editMode ? 'Disable' : 'Enable'}
-        </button>
-        <button className="form-submit-btn" onClick={handleUpdateEquipment}>
-        Update Equipment
-        </button>
+        <Link to={`/edit-equipment/${equipment[selectedEquipmentIndex]?.id}`} className="link">
+            <button className="form-submit-btn">
+                Update Equipment
+            </button>
+        </Link>
         <button className="form-submit-btn" onClick={handleDeleteEquipment}>
           Delete this equipment
         </button>
@@ -316,6 +237,12 @@ const CompanyOverview = () => {
                 </Link>
                 <Link to="/add-appointment" className="link">
                     <button className="form-submit-btn">Add appointment</button>
+                </Link>
+                <Link to={`/add-equipment/${companyId}`} className="link">
+                    <button className="form-submit-btn">Add equipment</button>
+                </Link>
+                <Link to={`/search-equipment/${companyId}`} className="link">
+                    <button className="form-submit-btn">Search equipment</button>
                 </Link>
             </div>
         </>

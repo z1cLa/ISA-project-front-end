@@ -10,6 +10,9 @@ import CompanyOverview from "./pages/CompanyOverview";
 import UpdateCompany from "./pages/UpdateCompany";
 import SearchCompanies from "./pages/SearchCompanies";
 import AddAppointment from "./pages/AddAppointment";
+import UpdateEquipment from "./pages/UpdateEquipment";
+import AddEquipment from "./pages/AddEquipment";
+import SearchEquipmentOfCompany from "./pages/SearchEquipmentOfCompany";
 
 function App() {
   return (
@@ -24,6 +27,10 @@ function App() {
         <Route path="/edit-company" element={<UpdateCompany />} />
         <Route path="/search-companies" element={<SearchCompanies />} />
         <Route path="/add-appointment" element={<AddAppointment />} />
+        <Route path="/edit-equipment/:id" element={<UpdateEquipment />} />
+        <Route path="/add-equipment/:companyId" element={<AddEquipment />} />
+        <Route path="/search-equipment/:companyId" element={<SearchEquipmentOfCompany />} />
+
       </Routes>
     </BrowserRouter>
   );
