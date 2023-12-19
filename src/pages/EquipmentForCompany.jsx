@@ -9,6 +9,7 @@ const EquipmentForCompany = () => {
   const [selectedEquipment, setSelectedEquipment] = useState([]);
   const [appointmentList, setAppointmentList] = useState([]);
   const [step, setStep] = useState(0);
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
   useEffect(() => {
     const fetchCompanyById = async () => {
       try {
@@ -84,6 +85,10 @@ const EquipmentForCompany = () => {
     setStep(0);
   };
 
+  const handleSelectAppointment = (selectedAppointment) => {
+    setSelectedAppointment(selectedAppointment);
+  };
+
   if (!company) {
     // You can render a loading spinner or a message while waiting for the data to load
     return <p>Loading...</p>;
@@ -138,23 +143,39 @@ const EquipmentForCompany = () => {
       )}
 
       {step === 1 && (
-        <div className="selected-equipment-container">
-          <h3>Company appointments:</h3>
+        <div className="selected-appointment-container">
+          <h3>Company Appointments:</h3>
           <ul>
             {appointmentList.map((appointment) => (
               <li key={appointment.id}>
                 <p>Date: {new Date(appointment.date).toLocaleDateString()}</p>
                 <p>Time: {appointment.time}</p>
                 <p>Duration: {appointment.duration}</p>
-                {/* Add other details for selected equipment */}
+                <button className="select-appointment-button" onClick={() => handleSelectAppointment(appointment)}>
+                Select Appointment
+                </button>
               </li>
             ))}
+          <button onClick={handleNextStep}>Make new appointment</button>
           </ul>
         </div>
       )}
 
+      {step === 1 && selectedAppointment && (
+        <div>
+          <h3>Selected Appointment:</h3>
+          <p>Date: {new Date(selectedAppointment.date).toLocaleDateString()}</p>
+          <p>Time: {selectedAppointment.time}</p>
+          <p>Duration: {selectedAppointment.duration}</p>
+          {/* Add other details for the selected appointment */}
+          <button onClick={handleNextStep}>Reserve</button>
+        </div>
+      )}
+
       {step === 1 && (
-        <button onClick={handlePreviousStep}>Previous Step</button>
+        <button onClick={handlePreviousStep} style={{ marginTop: '10px' }}>
+          Previous Step
+        </button>
       )}
     </div>
   );
