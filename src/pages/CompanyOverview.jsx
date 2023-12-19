@@ -5,6 +5,7 @@ import Navbar from "../ui/Navbar";
 import toastr from 'toastr';
 import 'toastr/build/toastr.css'; 
 
+
 const CompanyOverview = () => {
     const [formData, setFormData] = useState({
       companyName: "",
@@ -13,12 +14,14 @@ const CompanyOverview = () => {
       averageGrade: "",
       appointmentId: ""
     });
-
+    
     const [equipment, setEquipment] = useState([]);
     const [admins, setAdmins] = useState([]);
     const [equipmentPopupOpen, setEquipmentPopupOpen] = useState(false);
     const [adminPopupOpen, setAdminPopupOpen] = useState(false);
     const [selectedEquipmentIndex, setSelectedEquipmentIndex] = useState(0);
+    const companyId = 1;
+
 
     toastr.options = {
         positionClass: 'toast-top-right',
@@ -30,7 +33,7 @@ const CompanyOverview = () => {
     useEffect(() => {
         const fetchCompanyData = async () => {
             try {
-                const companyId = 1; //for now
+                 //for now
                 const response = await fetch(`http://localhost:8090/api/v1/company/${companyId}`);
                 
                 if (!response.ok) {
@@ -53,13 +56,13 @@ const CompanyOverview = () => {
 
         const fetchEquipmentData = async () => {
             try {
-                const companyId = 1; // for now
+                 // for now
                 const response = await fetch(`http://localhost:8090/api/v1/equipment/company/${companyId}`);
-    
+        
                 if (!response.ok) {
                     throw new Error(`Failed to fetch equipment data: ${response.statusText}`);
                 }
-    
+        
                 const equipmentData = await response.json();
                 setEquipment(equipmentData);
             } catch (error) {
@@ -69,7 +72,7 @@ const CompanyOverview = () => {
 
         const fetchAdminsData = async () => {
           try {
-              const companyId = 1; // for now
+               // for now
               const response = await fetch(`http://localhost:8090/api/v1/company/${companyId}/admins`);
       
               if (!response.ok) {
@@ -87,7 +90,6 @@ const CompanyOverview = () => {
         fetchEquipmentData();
         fetchAdminsData();
     }, []); 
-
 
 
     const handlePopupToggle = () => {
@@ -126,26 +128,66 @@ const CompanyOverview = () => {
         handleAdminPopupToggle();
     };
 
+    const handleDeleteEquipment = async () => {
+        try {
+          const equipmentIdToDelete = equipment[selectedEquipmentIndex]?.id;
+    
+          if (!equipmentIdToDelete) {
+            toastr.warning("No equipment selected for deletion.");
+            return;
+          }
+    
+          const response = await fetch(`http://localhost:8090/api/v1/equipment/delete/${equipmentIdToDelete}`, {
+            method: 'DELETE',
+          });
+    
+          if (response.ok) {
+            // Remove the deleted equipment from the state
+            const updatedEquipment = equipment.filter((_, index) => index !== selectedEquipmentIndex);
+            setEquipment(updatedEquipment);
+    
+            toastr.success("Equipment deleted successfully.");
+          } else {
+            toastr.error("Failed to delete equipment. Please try again.");
+          }
+        } catch (error) {
+          console.error("Error deleting equipment:", error);
+          toastr.error("An error occurred while deleting equipment.");
+        } finally {
+          // Close the equipment popup
+          handlePopupToggle();
+        }
+      };
+
+      
     const EquipmentPopup = () => (
         <div className={`popup ${equipmentPopupOpen ? 'open' : ''}`}>
             <div className="popup-content">
-                <p>Equipment {selectedEquipmentIndex + 1}</p>
+                <h2>Equipment {selectedEquipmentIndex + 1}</h2>
                 <p>Equipment Name: {equipment[selectedEquipmentIndex]?.equipmentName}</p>
                 <p>Equipment Type: {equipment[selectedEquipmentIndex]?.equipmentType}</p>
                 <p>Equipment Description: {equipment[selectedEquipmentIndex]?.equipmentDescription}</p>
                 <p>Equipment Price: {equipment[selectedEquipmentIndex]?.equipmentPrice}</p>
             </div>
 
-            <button className="navigation-btn previous" onClick={handlePrevEquipment}>
-                Previous
+        <button className="navigation-btn previous" onClick={handlePrevEquipment}>
+          Previous
+        </button>
+        <button className="navigation-btn next" onClick={handleNextEquipment}>
+          Next
+        </button>
+        <Link to={`/edit-equipment/${equipment[selectedEquipmentIndex]?.id}`} className="link">
+            <button className="form-submit-btn">
+                Update Equipment
             </button>
-            <button className="navigation-btn next" onClick={handleNextEquipment}>
-                Next
-            </button>
-            <button className="form-submit-btn" onClick={handlePopupToggle}>
-                Close
-            </button>
-        </div>
+        </Link>
+        <button className="form-submit-btn" onClick={handleDeleteEquipment}>
+          Delete this equipment
+        </button>
+        <button className="form-submit-btn" onClick={handlePopupToggle}>
+          Close
+        </button>
+      </div>
     );
 
     const AdminPopup = () => (
@@ -192,6 +234,15 @@ const CompanyOverview = () => {
                 {adminPopupOpen && <AdminPopup />}
                 <Link to="/edit-company" className="link">
                     <button className="form-submit-btn">Update company</button>
+                </Link>
+                <Link to="/add-appointment" className="link">
+                    <button className="form-submit-btn">Add appointment</button>
+                </Link>
+                <Link to={`/add-equipment/${companyId}`} className="link">
+                    <button className="form-submit-btn">Add equipment</button>
+                </Link>
+                <Link to={`/search-equipment/${companyId}`} className="link">
+                    <button className="form-submit-btn">Search equipment</button>
                 </Link>
             </div>
         </>
