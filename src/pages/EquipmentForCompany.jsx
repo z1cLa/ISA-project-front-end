@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './EquipmentForCompany.css';
+import NewAppointment from '../components/NewAppointment';
 
 const EquipmentForCompany = () => {
   const { companyId } = useParams();
@@ -10,6 +11,35 @@ const EquipmentForCompany = () => {
   const [appointmentList, setAppointmentList] = useState([]);
   const [step, setStep] = useState(0);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [formData, setFormData] = useState({
+    status: 'In progress',
+    appointment: {
+      id: '',
+      date: '',
+      time: '',
+      duration: '',
+      isCompanyAppointment: '',
+    },
+    user: {
+      id: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      phoneNumber: '',
+      country: '',
+      city: '',
+      profession: '',
+      companyInfo: '',
+      role: '',
+      verification_Code: '',
+      companies: [],
+      is_verified: true,
+    },
+  });
+
+  const [showMakeNewAppointment, setShowMakeNewAppointment] = useState();
+
   useEffect(() => {
     const fetchCompanyById = async () => {
       try {
@@ -65,6 +95,23 @@ const EquipmentForCompany = () => {
     fetchAppointmentsByCompanyId();
   }, [companyId]);
 
+  useEffect(() => {
+  const fetchUserData = async () => {
+    try {
+      const userResponse = await fetch('http://localhost:8090/api/v1/auth/user/1');
+      if (userResponse.ok) {
+        const userData = await userResponse.json();
+        setFormData((prevData) => ({
+          ...prevData,
+          user: userData,
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
+  fetchUserData();
+  }, []);
   const handleAddToSelectedEquipment = (selectedId) => {
     const selected = equipmentList.find((equipment) => equipment.id === selectedId);
     setSelectedEquipment((prevSelected) => [...prevSelected, selected]);
@@ -87,6 +134,46 @@ const EquipmentForCompany = () => {
 
   const handleSelectAppointment = (selectedAppointment) => {
     setSelectedAppointment(selectedAppointment);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      appointment: {
+        id: selectedAppointment.id,
+        date: selectedAppointment.date,
+        time: selectedAppointment.time,
+        duration: selectedAppointment.duration,
+        isCompanyAppointment: selectedAppointment.isCompanyAppointment,
+      },
+    }));
+  };
+
+  const handleReserve = async (e) => {
+    e.preventDefault();
+    
+    const dataToSend = { ...formData, equipments: [...selectedEquipment] }
+
+    try {
+      const response = await fetch('http://localhost:8090/api/v1/reservation/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataToSend),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Reservation created successfully:', data);
+        //toastr.success('Appointment created successfuly')   
+        // Handle success (e.g., redirect to a success page)
+      } else {
+        const errorData = await response.json();
+        console.error('Error creating reservation:', response.statusText, errorData);
+        // Handle error (e.g., show an error message)
+      }
+    } catch (error) {
+      console.error('Error creating reservation:', error);
+      // Handle other errors
+    }
   };
 
   if (!company) {
@@ -156,8 +243,9 @@ const EquipmentForCompany = () => {
                 </button>
               </li>
             ))}
-          <button onClick={handleNextStep}>Make new appointment</button>
           </ul>
+          <button onClick={() => setShowMakeNewAppointment((prev) => !prev)}>Make new appointment</button>
+          {showMakeNewAppointment && <NewAppointment selectedEquipment={selectedEquipment} />}
         </div>
       )}
 
@@ -168,7 +256,7 @@ const EquipmentForCompany = () => {
           <p>Time: {selectedAppointment.time}</p>
           <p>Duration: {selectedAppointment.duration}</p>
           {/* Add other details for the selected appointment */}
-          <button onClick={handleNextStep}>Reserve</button>
+          <button onClick={handleReserve}>Reserve</button>
         </div>
       )}
 
