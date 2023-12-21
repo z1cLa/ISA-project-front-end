@@ -12,6 +12,7 @@ const AppointmentForm = () => {
     date: '',
     time: '',
     duration: '',
+    isCompaniesAppointment: 'true',
     company: {
       id: '',
       companyName: '',

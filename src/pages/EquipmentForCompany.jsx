@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './EquipmentForCompany.css';
 import NewAppointment from '../components/NewAppointment';
+import Navbar from "../ui/Navbar";
 
 const EquipmentForCompany = () => {
   const { companyId } = useParams();
@@ -182,6 +183,8 @@ const EquipmentForCompany = () => {
   }
 
   return (
+    <>
+    <Navbar />
     <div className="equipment-for-company-container">
       <h2>{company.companyName}</h2>
       <p>Address: {company.address}</p>
@@ -266,6 +269,7 @@ const EquipmentForCompany = () => {
         </button>
       )}
     </div>
+    </>
   );
 };
 
