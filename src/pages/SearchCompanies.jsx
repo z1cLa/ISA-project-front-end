@@ -3,6 +3,7 @@ import "./SearchCompanies.css";
 import Navbar from "../ui/Navbar";
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
+import { useNavigate } from "react-router-dom";
 
 const SearchCompanies = () => {
     const [searchTermName, setSearchTermName] = useState("");
@@ -12,6 +13,7 @@ const SearchCompanies = () => {
     const [filtereCompanies, setFilteredCompanies] = useState([]);
     const [filterMinGrade, setFilterMinGrade] = useState("");
     const [filterMaxGrade, setFilterMaxGrade] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Fetch all companies data from the server
@@ -90,6 +92,10 @@ const SearchCompanies = () => {
         }
       };
 
+      const handleNavigateToEquipment = (companyId) => {
+        navigate(`/company/${companyId}`);
+      };
+
       return (
         <div>
           <Navbar />
@@ -151,6 +157,9 @@ const SearchCompanies = () => {
                   <p>Name: {company.companyName}</p>
                   <p>Address: {company.address}</p>
                   <p>Average Grade: {company.averageGrade}</p>
+                  <button onClick={() => handleNavigateToEquipment(company.id)}>
+                  View Equipment
+                  </button>
                 </div>
               ))}
             </div>
