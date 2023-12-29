@@ -14,7 +14,9 @@ const SearchEquipment = () => {
     // Fetch all equipment data from the server
     const fetchEquipment = async () => {
       try {
-        const response = await fetch("http://localhost:8090/api/v1/equipment/all");
+        const response = await fetch(
+          "http://localhost:8090/api/v1/equipment/all"
+        );
         if (response.ok) {
           const data = await response.json();
           setEquipmentList(data);
@@ -36,12 +38,16 @@ const SearchEquipment = () => {
       await Promise.all(
         equipmentList.map(async (equipment) => {
           try {
-            const response = await fetch(`http://localhost:8090/api/v1/company/${equipment.companyId}`);
+            const response = await fetch(
+              `http://localhost:8090/api/v1/company/${equipment.companyId}`
+            );
             if (response.ok) {
               const companyData = await response.json();
               details[equipment.id] = companyData.companyName;
             } else {
-              console.error(`Failed to fetch company details for equipment ID: ${equipment.id}`);
+              console.error(
+                `Failed to fetch company details for equipment ID: ${equipment.id}`
+              );
             }
           } catch (error) {
             console.error("Error fetching company details", error);
@@ -56,16 +62,17 @@ const SearchEquipment = () => {
 
   const handleSearch = () => {
     // Filter equipment based on the search term
-    const filtered = equipmentList.filter(
-      (equipment) =>
-        equipment.equipmentName.toLowerCase().includes(searchTerm.toLowerCase())
+    const filtered = equipmentList.filter((equipment) =>
+      equipment.equipmentName.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredEquipment(filtered);
   };
 
   const handleSort = (criteria) => {
     // Toggle sortOrder if the same criteria is clicked again
-    setSortOrder((prevOrder) => (sortBy === criteria ? (prevOrder === "asc" ? "desc" : "asc") : "asc"));
+    setSortOrder((prevOrder) =>
+      sortBy === criteria ? (prevOrder === "asc" ? "desc" : "asc") : "asc"
+    );
     setSortBy(criteria);
     // Sort the already filtered equipment
     const sorted = [...filteredEquipment].sort((a, b) => {
@@ -85,7 +92,6 @@ const SearchEquipment = () => {
 
   return (
     <div>
-      <Navbar /> {/* Include the Navbar component */}
       <div className="search-equipment-container">
         <div className="form-group">
           <label>Search Equipment:</label>
@@ -98,8 +104,12 @@ const SearchEquipment = () => {
         </div>
 
         <div className="sort-options">
-          <button onClick={() => handleSort("equipmentPrice")}>Sort by Price {sortBy === "equipmentPrice" && `(${sortOrder})`}</button>
-          <button onClick={() => handleSort("equipmentType")}>Sort by Type {sortBy === "equipmentType" && `(${sortOrder})`}</button>
+          <button onClick={() => handleSort("equipmentPrice")}>
+            Sort by Price {sortBy === "equipmentPrice" && `(${sortOrder})`}
+          </button>
+          <button onClick={() => handleSort("equipmentType")}>
+            Sort by Type {sortBy === "equipmentType" && `(${sortOrder})`}
+          </button>
         </div>
 
         <div className="equipment-list">

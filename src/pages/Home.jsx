@@ -1,11 +1,7 @@
 import Navbar from "../ui/Navbar";
 
 function Home() {
-  return (
-    <div>
-      <Navbar />
-    </div>
-  );
+  return <div></div>;
 }
 
 export default Home;

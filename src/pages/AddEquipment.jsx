@@ -3,14 +3,11 @@ import "./UpdateCompany.css";
 import Navbar from "../ui/Navbar";
 import toastr from "toastr";
 import "toastr/build/toastr.css";
-import { useNavigate,useParams } from "react-router-dom";
-
+import { useNavigate, useParams } from "react-router-dom";
 
 const AddEquipment = () => {
   const { companyId } = useParams();
   const navigate = useNavigate();
-
-    
 
   const [formData, setFormData] = useState({
     equipmentName: "",
@@ -35,13 +32,16 @@ const AddEquipment = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8090/api/v1/equipment/save", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "http://localhost:8090/api/v1/equipment/save",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`Failed to add equipment: ${response.statusText}`);
@@ -57,7 +57,6 @@ const AddEquipment = () => {
 
   return (
     <>
-      <Navbar />
       <div className="form-container">
         <form className="form" onSubmit={handleSubmit}>
           <div className="form-group">

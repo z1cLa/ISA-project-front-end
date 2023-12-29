@@ -1,45 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import 'react-time-picker/dist/TimePicker.css';
-import './AddAppointment.css';
+import React, { useState, useEffect } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "react-time-picker/dist/TimePicker.css";
+import "./AddAppointment.css";
 import Navbar from "../ui/Navbar";
-import toastr from 'toastr';
-import 'toastr/build/toastr.css';
+import toastr from "toastr";
+import "toastr/build/toastr.css";
 
 const AppointmentForm = () => {
   const [formData, setFormData] = useState({
-    date: '',
-    time: '',
-    duration: '',
-    isCompaniesAppointment: 'true',
+    date: "",
+    time: "",
+    duration: "",
+    isCompaniesAppointment: "true",
     company: {
-      id: '',
-      companyName: '',
-      address: '',
-      description: '',
-      averageGrade: '',
+      id: "",
+      companyName: "",
+      address: "",
+      description: "",
+      averageGrade: "",
     },
     user: {
-      id: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      phoneNumber: '',
-      country: '',
-      city: '',
-      profession: '',
-      companyInfo: '',
-      role: '',
-      verificationCode: '',
+      id: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      phoneNumber: "",
+      country: "",
+      city: "",
+      profession: "",
+      companyInfo: "",
+      role: "",
+      verificationCode: "",
       companies: [],
       verified: true,
     },
   });
 
   toastr.options = {
-    positionClass: 'toast-top-right',
+    positionClass: "toast-top-right",
     hideDuration: 300,
     timeOut: 3000,
     closeButton: true,
@@ -49,7 +49,9 @@ const AppointmentForm = () => {
     // Fetch company data by ID
     const fetchCompanyData = async () => {
       try {
-        const companyResponse = await fetch('http://localhost:8090/api/v1/company/1');
+        const companyResponse = await fetch(
+          "http://localhost:8090/api/v1/company/1"
+        );
         if (companyResponse.ok) {
           const companyData = await companyResponse.json();
           setFormData((prevData) => ({
@@ -58,14 +60,16 @@ const AppointmentForm = () => {
           }));
         }
       } catch (error) {
-        console.error('Error fetching company data:', error);
+        console.error("Error fetching company data:", error);
       }
     };
 
     // Fetch user data by ID
     const fetchUserData = async () => {
       try {
-        const userResponse = await fetch('http://localhost:8090/api/v1/auth/user/1');
+        const userResponse = await fetch(
+          "http://localhost:8090/api/v1/auth/user/1"
+        );
         if (userResponse.ok) {
           const userData = await userResponse.json();
           setFormData((prevData) => ({
@@ -74,7 +78,7 @@ const AppointmentForm = () => {
           }));
         }
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
       }
     };
 
@@ -82,7 +86,6 @@ const AppointmentForm = () => {
     fetchCompanyData();
     fetchUserData();
   }, []); // The empty dependency array ensures that this effect runs only once, similar to componentDidMount
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -104,43 +107,49 @@ const AppointmentForm = () => {
 
     const currentDate = new Date();
     const selectedDate = new Date(formData.date);
-    
+
     if (selectedDate < currentDate) {
-      toastr.error('Selected date cannot be in the past');
+      toastr.error("Selected date cannot be in the past");
       return; // Stop the submission if the date is in the past
     }
-    
+
     try {
-      const response = await fetch('http://localhost:8090/api/v1/appointment/save', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-  
+      const response = await fetch(
+        "http://localhost:8090/api/v1/appointment/save",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
       if (response.ok) {
         const data = await response.json();
-        console.log('Appointment created successfully:', data);
-        toastr.success('Appointment created successfuly')   
+        console.log("Appointment created successfully:", data);
+        toastr.success("Appointment created successfuly");
         // Handle success (e.g., redirect to a success page)
       } else {
         const errorData = await response.json();
-        console.error('Error creating appointment:', response.statusText, errorData);
+        console.error(
+          "Error creating appointment:",
+          response.statusText,
+          errorData
+        );
         // Handle error (e.g., show an error message)
       }
     } catch (error) {
-      console.error('Error creating appointment:', error);
+      console.error("Error creating appointment:", error);
       // Handle other errors
     }
   };
   return (
     <>
-    <Navbar />
-    <form className='forma' onSubmit={handleSubmit}>
-      <label>Date:</label>    
-      <DatePicker
-        className='ubaci1'
+      <form className="forma" onSubmit={handleSubmit}>
+        <label>Date:</label>
+        <DatePicker
+          className="ubaci1"
           name="date"
           selected={formData.date}
           onChange={handleDateChange}
@@ -148,27 +157,55 @@ const AppointmentForm = () => {
           required
         />
 
-      <label>Time:</label>
-      <input className='ubaci' type="text" name="time" value={formData.time} onChange={handleChange} placeholder='HH:mm:ss' required/>
-      
+        <label>Time:</label>
+        <input
+          className="ubaci"
+          type="text"
+          name="time"
+          value={formData.time}
+          onChange={handleChange}
+          placeholder="HH:mm:ss"
+          required
+        />
 
+        <label>Duration:</label>
+        <input
+          className="ubaci"
+          type="text"
+          name="duration"
+          value={formData.duration}
+          onChange={handleChange}
+          required
+        />
 
-      <label>Duration:</label>
-      <input className='ubaci' type="text" name="duration" value={formData.duration} onChange={handleChange} required />
+        {/* Company details */}
+        <label>Company Name:</label>
+        <input
+          className="ubaci"
+          type="text"
+          name="companyName"
+          value={formData.company.companyName}
+          readOnly
+          disabled
+        />
 
-      {/* Company details */}
-      <label>Company Name:</label>
-      <input className='ubaci' type="text" name="companyName" value={formData.company.companyName} readOnly disabled  />
+        {/* User details */}
+        <label>User Name:</label>
+        <input
+          className="ubaci"
+          type="text"
+          name="userName"
+          value={`${formData.user.firstName} ${formData.user.lastName}`}
+          readOnly
+          disabled
+        />
 
-      {/* User details */}
-      <label>User Name:</label>
-      <input className='ubaci' type="text" name="userName" value={`${formData.user.firstName} ${formData.user.lastName}`} readOnly disabled />
-
-      <button className='dugmence' type="submit">Create Appointment</button>
-    </form>
+        <button className="dugmence" type="submit">
+          Create Appointment
+        </button>
+      </form>
     </>
   );
-
 };
 
 export default AppointmentForm;

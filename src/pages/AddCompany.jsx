@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./AddCompany.css";
 import Navbar from "../ui/Navbar";
 import { useNavigate } from "react-router-dom";
-import toastr from 'toastr';
-import 'toastr/build/toastr.css';
+import toastr from "toastr";
+import "toastr/build/toastr.css";
 
 const AddCompany = () => {
   const [companyData, setCompanyData] = useState({
@@ -15,7 +15,7 @@ const AddCompany = () => {
   });
 
   toastr.options = {
-    positionClass: 'toast-top-right',
+    positionClass: "toast-top-right",
     hideDuration: 300,
     timeOut: 3000,
     closeButton: true,
@@ -45,16 +45,17 @@ const AddCompany = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
+
     setCompanyData((prevData) => {
       if (name === "selectedAdmin") {
-        const selectedAdmin = admins.find((admin) => admin.id === parseInt(value));
+        const selectedAdmin = admins.find(
+          (admin) => admin.id === parseInt(value)
+        );
         return { ...prevData, admins: [selectedAdmin] };
       }
       return { ...prevData, [name]: value };
     });
   };
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,7 +70,7 @@ const AddCompany = () => {
     if (response.ok) {
       console.log("Company posted successfully");
       console.log(companyData);
-      toastr.success('Company created successful')   
+      toastr.success("Company created successful");
       navigate("/");
     } else {
       const data = await response.json();
@@ -79,7 +80,6 @@ const AddCompany = () => {
 
   return (
     <>
-      <Navbar />
       <div className="add-company-container">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -142,7 +142,9 @@ const AddCompany = () => {
             <label>Select Admin:</label>
             <select
               name="selectedAdmin"
-              value={companyData.admins.length > 0 ? companyData.admins[0].id : ""}
+              value={
+                companyData.admins.length > 0 ? companyData.admins[0].id : ""
+              }
               onChange={handleChange}
             >
               <option value={null}>Select Admin</option>
@@ -155,7 +157,9 @@ const AddCompany = () => {
           </div>
 
           <div className="form-group">
-            <button className="form-submit-btn" type="submit">Post Company</button>
+            <button className="form-submit-btn" type="submit">
+              Post Company
+            </button>
           </div>
         </form>
       </div>

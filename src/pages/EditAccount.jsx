@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from "react";
-import "./EditAccount.css"; 
+import "./EditAccount.css";
 import Navbar from "../ui/Navbar";
-import toastr from 'toastr';
-import 'toastr/build/toastr.css';
+import toastr from "toastr";
+import "toastr/build/toastr.css";
 
 const EditAccount = () => {
-    const [formData, setFormData] = useState({
-      email: "",
-      password: "",
-      confirmPassword: "",
-      firstName: "",
-      lastName: "",
-      city: "",
-      country: "",
-      phoneNumber: "",
-      profession: "",
-      companyInfo: "",
-    });
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    firstName: "",
+    lastName: "",
+    city: "",
+    country: "",
+    phoneNumber: "",
+    profession: "",
+    companyInfo: "",
+  });
 
-    toastr.options = {
-        positionClass: 'toast-top-right',
-        hideDuration: 300,
-        timeOut: 3000,
-        closeButton: true,
-      };
+  toastr.options = {
+    positionClass: "toast-top-right",
+    hideDuration: 300,
+    timeOut: 3000,
+    closeButton: true,
+  };
 
   const [errors, setErrors] = useState({});
 
@@ -32,8 +32,10 @@ const EditAccount = () => {
       try {
         // Replace 'userId' with the actual user ID you want to fetch
         const userId = 1; // Example user ID
-        const response = await fetch(`http://localhost:8090/api/v1/auth/user/${userId}`);
-        
+        const response = await fetch(
+          `http://localhost:8090/api/v1/auth/user/${userId}`
+        );
+
         if (!response.ok) {
           throw new Error(`Failed to fetch user data: ${response.statusText}`);
         }
@@ -41,9 +43,9 @@ const EditAccount = () => {
         const userData = await response.json();
 
         setFormData({
-          email:userData.email || "",
-          password:userData.password || "", // You might not want to pre-fill the password for security reasons
-          confirmPassword:userData.confirmPassword ||  "",
+          email: userData.email || "",
+          password: userData.password || "", // You might not want to pre-fill the password for security reasons
+          confirmPassword: userData.confirmPassword || "",
           firstName: userData.firstName || "",
           lastName: userData.lastName || "",
           city: userData.city || "",
@@ -85,58 +87,58 @@ const EditAccount = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  // Assuming you have a userId to identify the user being updated
-  const userId = 1;
-  const response = await fetch(`http://localhost:8090/api/v1/auth/user/${userId}`, {
-    method: "PUT", // Change the method to PUT
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  });
-  toastr.success('Updated')
-  const data = await response.json();
-  console.log(data);
-};
-
+    e.preventDefault();
+    // Assuming you have a userId to identify the user being updated
+    const userId = 1;
+    const response = await fetch(
+      `http://localhost:8090/api/v1/auth/user/${userId}`,
+      {
+        method: "PUT", // Change the method to PUT
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
+    toastr.success("Updated");
+    const data = await response.json();
+    console.log(data);
+  };
 
   return (
     <>
-      <Navbar />
       <div className="edit-container">
-  <form onSubmit={handleSubmit} className="two-column-form">
+        <form onSubmit={handleSubmit} className="two-column-form">
+          <div className="form-group">
+            <label>Password:</label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              onBlur={validatePassword}
+              required
+            />
+            {errors.password && (
+              <div className="error-message">{errors.password}</div>
+            )}
+          </div>
 
-    <div className="form-group">
-      <label>Password:</label>
-      <input
-        type="password"
-        name="password"
-        value={formData.password}
-        onChange={handleChange}
-        onBlur={validatePassword}
-        required
-      />
-      {errors.password && (
-        <div className="error-message">{errors.password}</div>
-      )}
-    </div>
+          <div className="form-group">
+            <label>First Name:</label>
+            <input
+              type="text"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              required
+            />
+            {errors.firstName && (
+              <div className="error-message">{errors.firstName}</div>
+            )}
+          </div>
 
-    <div className="form-group">
-      <label>First Name:</label>
-      <input
-        type="text"
-        name="firstName"
-        value={formData.firstName}
-        onChange={handleChange}
-        required
-      />
-      {errors.firstName && (
-        <div className="error-message">{errors.firstName}</div>
-      )}
-    </div>
-
-    <div className="form-group">
+          <div className="form-group">
             <label>Last Name:</label>
             <input
               type="text"
@@ -219,20 +221,22 @@ const EditAccount = () => {
           </div>
 
           <div className="form-group">
-           <label>Penalty Points:</label>
-           <span>{/* Add logic to display penalty points */}0</span>
+            <label>Penalty Points:</label>
+            <span>{/* Add logic to display penalty points */}0</span>
           </div>
 
-    <div className="form-group">
-      <label>User Category:</label>
-      <span>{/* Add logic to display user category */}Bronze</span>
-    </div>
+          <div className="form-group">
+            <label>User Category:</label>
+            <span>{/* Add logic to display user category */}Bronze</span>
+          </div>
 
-    <div className="form-group">
-      <button className="form-submit-btn" type="submit">Update</button>
-    </div>
-  </form>
-</div>
+          <div className="form-group">
+            <button className="form-submit-btn" type="submit">
+              Update
+            </button>
+          </div>
+        </form>
+      </div>
     </>
   );
 };

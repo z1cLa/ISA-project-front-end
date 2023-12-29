@@ -1,8 +1,19 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
+import useAuth from "../hooks/useAuth";
+import { getLoggedUser } from "../utils/getLoggedUser";
 
-const Navbar = () => {
+const Navbar = ({ loggedUserParam }) => {
+  const navigate = useNavigate(); // To programmatically navigate after logout
+  const { loggedUser, setLoggedUser } = useAuth();
+
+  const handleLogout = () => {
+    setLoggedUser(null); // Clear the logged user state
+    localStorage.removeItem("token"); // Remove the token from local storage
+    navigate("/"); // Redirect to the login page
+  };
+
   return (
     <div className="navbar">
       <Link className="logo" to="/">
@@ -12,16 +23,21 @@ const Navbar = () => {
         />
       </Link>
       <div className="nav-links">
+        <Link to="/login">Login</Link>
         <Link to="/register">Register</Link>
         <Link to="/edit-account">Edit Account</Link>
         <Link to="/add-company">Add Company</Link>
         <Link to="/company">Your company</Link>
         <Link to="/search-equipment">Search Equipment</Link>
         <Link to="/search-companies">Search Companies</Link>
+        <Link to="/add-appointment">Add Appointment</Link>
       </div>
-      <div className="nav-links">
-
-      </div>
+      {loggedUser && (
+        <div className="nav-user-info">
+          <span>Welcome, {loggedUser.firstName}</span>
+          <button onClick={handleLogout}>Logout</button>
+        </div>
+      )}
     </div>
   );
 };

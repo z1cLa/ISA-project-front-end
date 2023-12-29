@@ -10,6 +10,10 @@
   color: white;
 }
 
+span {
+  margin-right: 1rem;
+}
+
 .logo img {
   height: 40px;
   margin-bottom: 10px; /* Added margin to the logo for better spacing on smaller screens */
@@ -30,7 +34,7 @@
 }
 
 .nav-links a::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;

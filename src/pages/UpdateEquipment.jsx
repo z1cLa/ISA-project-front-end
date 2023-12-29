@@ -74,7 +74,6 @@ const EditEquipment = () => {
 
   return (
     <>
-      <Navbar />
       <div className="form-container">
         <form className="form" onSubmit={handleSubmit}>
           <div className="form-group">
