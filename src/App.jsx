@@ -21,6 +21,7 @@ import RequireAuth from "./ui/RequireAuth";
 import Unauthorized from "./pages/Unauthorized";
 import Navbar from "./ui/Navbar";
 import useAuth from "./hooks/useAuth";
+import ReservationDetails from "./pages/ReservationDetails";
 
 function App() {
   const { loggedUser, setLoggedUser } = useAuth();
@@ -36,6 +37,7 @@ function App() {
               path="/login"
               element={<Login setLoggedUser={setLoggedUser} />}
             />
+            <Route path="/reservation/:id" element={<ReservationDetails />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
             <Route
               element={
@@ -51,9 +53,8 @@ function App() {
               <Route path="/search-companies" element={<SearchCompanies />} />
               <Route
                 path="/company/:companyId"
-                element={<EquipmentForCompany />}
+                element={<EquipmentForCompany loggedUser={loggedUser} />}
               />
-              <Route path="/add-appointment" element={<AddAppointment />} />
               <Route path="/edit-equipment/:id" element={<UpdateEquipment />} />
               <Route
                 path="/add-equipment/:companyId"
@@ -74,6 +75,10 @@ function App() {
             >
               <Route path="/add-company" element={<AddCompany />} />
               <Route path="/edit-company" element={<UpdateCompany />} />
+              <Route
+                path="/add-appointment"
+                element={<AddAppointment loggedUser={loggedUser} />}
+              />
             </Route>
           </Route>
         </Routes>

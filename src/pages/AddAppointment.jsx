@@ -7,7 +7,7 @@ import Navbar from "../ui/Navbar";
 import toastr from "toastr";
 import "toastr/build/toastr.css";
 
-const AppointmentForm = () => {
+const AppointmentForm = ({ loggedUser }) => {
   const [formData, setFormData] = useState({
     date: "",
     time: "",
@@ -21,20 +21,19 @@ const AppointmentForm = () => {
       averageGrade: "",
     },
     user: {
-      id: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      phoneNumber: "",
-      country: "",
-      city: "",
-      profession: "",
-      companyInfo: "",
-      role: "",
-      verificationCode: "",
-      companies: [],
-      verified: true,
+      // id: "",
+      // firstName: "",
+      // lastName: "",
+      // email: "",
+      // password: "",
+      // phoneNumber: "",
+      // country: "",
+      // city: "",
+      // profession: "",
+      // companyInfo: "",
+      // role: "",
+      // verificationCode: "",
+      // verified: true,
     },
   });
 
@@ -66,20 +65,24 @@ const AppointmentForm = () => {
 
     // Fetch user data by ID
     const fetchUserData = async () => {
-      try {
-        const userResponse = await fetch(
-          "http://localhost:8090/api/v1/auth/user/1"
-        );
-        if (userResponse.ok) {
-          const userData = await userResponse.json();
-          setFormData((prevData) => ({
-            ...prevData,
-            user: userData,
-          }));
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
+      // try {
+      //   const userResponse = await fetch(
+      //     "http://localhost:8090/api/v1/auth/user/1"
+      //   );
+      //   if (userResponse.ok) {
+      //     const userData = await userResponse.json();
+      //     setFormData((prevData) => ({
+      //       ...prevData,
+      //       user: userData,
+      //     }));
+      //   }
+      // } catch (error) {
+      //   console.error("Error fetching user data:", error);
+      // }
+      setFormData((prevData) => ({
+        ...prevData,
+        user: loggedUser,
+      }));
     };
 
     // Call the fetch functions

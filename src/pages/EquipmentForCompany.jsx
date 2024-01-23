@@ -4,7 +4,7 @@ import "./EquipmentForCompany.css";
 import NewAppointment from "../components/NewAppointment";
 import Navbar from "../ui/Navbar";
 
-const EquipmentForCompany = () => {
+const EquipmentForCompany = ({ loggedUser }) => {
   const { companyId } = useParams();
   const [company, setCompany] = useState(null);
   const [equipmentList, setEquipmentList] = useState([]);
@@ -103,24 +103,16 @@ const EquipmentForCompany = () => {
   }, [companyId]);
 
   useEffect(() => {
+    console.log("LU: ", loggedUser);
     const fetchUserData = async () => {
-      try {
-        const userResponse = await fetch(
-          "http://localhost:8090/api/v1/auth/user/1"
-        );
-        if (userResponse.ok) {
-          const userData = await userResponse.json();
-          setFormData((prevData) => ({
-            ...prevData,
-            user: userData,
-          }));
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
+      setFormData((prevData) => ({
+        ...prevData,
+        user: loggedUser,
+      }));
     };
     fetchUserData();
-  }, []);
+  }, [loggedUser]);
+
   const handleAddToSelectedEquipment = (selectedId) => {
     const selected = equipmentList.find(
       (equipment) => equipment.id === selectedId

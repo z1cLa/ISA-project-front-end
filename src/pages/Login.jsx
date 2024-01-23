@@ -46,9 +46,11 @@ function Login({ setLoggedUser }) {
     const data = await response.json();
     localStorage.setItem("token", data.accessToken);
     setFormData({ email: "", password: "" });
-    navigate("/", { replace: true });
-    const newUser = await whoAm();
-    setLoggedUser(newUser);
+    if (data.accessToken) {
+      navigate("/", { replace: true });
+      const newUser = await whoAm();
+      setLoggedUser(newUser);
+    }
   };
 
   const whoAm = async () => {
