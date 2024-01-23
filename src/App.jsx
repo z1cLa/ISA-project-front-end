@@ -39,6 +39,8 @@ function App() {
             />
             <Route path="/reservation/:id" element={<ReservationDetails />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
+            <Route path="/edit-account" element={<EditAccount />} />
+            {/* FOR USER */}
             <Route
               element={
                 <RequireAuth
@@ -47,24 +49,18 @@ function App() {
                 />
               }
             >
-              <Route path="/edit-account" element={<EditAccount />} />
-              <Route path="/search-equipment" element={<SearchEquipment />} />
-              <Route path="/company" element={<CompanyOverview />} />
+
+              
+              
               <Route path="/search-companies" element={<SearchCompanies />} />
               <Route
                 path="/company/:companyId"
                 element={<EquipmentForCompany loggedUser={loggedUser} />}
               />
-              <Route path="/edit-equipment/:id" element={<UpdateEquipment />} />
-              <Route
-                path="/add-equipment/:companyId"
-                element={<AddEquipment />}
-              />
-              <Route
-                path="/search-equipment/:companyId"
-                element={<SearchEquipmentOfCompany />}
-              />
+
+
             </Route>
+            {/* FOR ADMIN */}
             <Route
               element={
                 <RequireAuth
@@ -76,10 +72,23 @@ function App() {
               <Route path="/add-company" element={<AddCompany />} />
               <Route path="/edit-company" element={<UpdateCompany />} />
               <Route
-                path="/add-appointment"
-                element={<AddAppointment loggedUser={loggedUser} />}
+              path="/add-appointment"
+              element={<AddAppointment loggedUser={loggedUser} />}
               />
+              <Route path="/company" element={<CompanyOverview />} />
+              <Route path="/search-equipment" element={<SearchEquipment />} />
+              <Route path="/edit-equipment/:id" element={<UpdateEquipment />} />
+              <Route
+                path="/add-equipment/:companyId"
+                element={<AddEquipment />}
+              />
+              <Route
+                path="/search-equipment/:companyId"
+                element={<SearchEquipmentOfCompany />}
+              />
+
             </Route>
+
           </Route>
         </Routes>
       </AuthProvider>

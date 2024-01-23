@@ -19,7 +19,7 @@ const CompanyOverview = () => {
   const [equipmentPopupOpen, setEquipmentPopupOpen] = useState(false);
   const [adminPopupOpen, setAdminPopupOpen] = useState(false);
   const [selectedEquipmentIndex, setSelectedEquipmentIndex] = useState(0);
-  const companyId = 1;
+  const companyId = 102;
 
   toastr.options = {
     positionClass: "toast-top-right",
