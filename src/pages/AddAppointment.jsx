@@ -13,6 +13,7 @@ const AppointmentForm = ({ loggedUser }) => {
     time: "",
     duration: "",
     isCompaniesAppointment: "true",
+    isReserved: "false",
     company: {
       id: "",
       companyName: "",

@@ -22,6 +22,7 @@ import Unauthorized from "./pages/Unauthorized";
 import Navbar from "./ui/Navbar";
 import useAuth from "./hooks/useAuth";
 import ReservationDetails from "./pages/ReservationDetails";
+import UserReservations from "./pages/UserReservations";
 
 function App() {
   const { loggedUser, setLoggedUser } = useAuth();
@@ -47,6 +48,10 @@ function App() {
                 />
               }
             >
+              <Route
+                path="/user-reservations"
+                element={<UserReservations loggedUser={loggedUser} />}
+              />
               <Route path="/edit-account" element={<EditAccount />} />
               <Route path="/search-equipment" element={<SearchEquipment />} />
               <Route path="/company" element={<CompanyOverview />} />

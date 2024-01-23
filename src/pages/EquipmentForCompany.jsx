@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./EquipmentForCompany.css";
 import NewAppointment from "../components/NewAppointment";
-import Navbar from "../ui/Navbar";
 
 const EquipmentForCompany = ({ loggedUser }) => {
   const { companyId } = useParams();
@@ -40,6 +39,7 @@ const EquipmentForCompany = ({ loggedUser }) => {
   });
 
   const [showMakeNewAppointment, setShowMakeNewAppointment] = useState();
+  const [cancellations, setCancellations] = useState();
 
   useEffect(() => {
     const fetchCompanyById = async () => {
@@ -83,14 +83,37 @@ const EquipmentForCompany = ({ loggedUser }) => {
   }, [companyId]);
 
   useEffect(() => {
-    const fetchAppointmentsByCompanyId = async () => {
+    const fetchUserCancellations = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8090/api/v1/cancellation/user/${loggedUser.id}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setCancellations(data);
+          return data; // Return the fetched data
+        } else {
+          console.error("Failed to fetch user cancellations");
+        }
+      } catch (error) {
+        console.error("Error fetching user cancellations", error);
+      }
+    };
+
+    const fetchAppointmentsByCompanyId = async (cancellationsData) => {
       try {
         const response = await fetch(
           `http://localhost:8090/api/v1/appointment/byCompany/${companyId}`
         );
         if (response.ok) {
           const data = await response.json();
-          setAppointmentList(data);
+          const filteredAppointments = data.filter(
+            (appointment) =>
+              !cancellationsData.some(
+                (cancellation) => cancellation.appointmentId === appointment.id
+              )
+          );
+          setAppointmentList(filteredAppointments);
         } else {
           console.error("Failed to fetch appointments");
         }
@@ -99,8 +122,12 @@ const EquipmentForCompany = ({ loggedUser }) => {
       }
     };
 
-    fetchAppointmentsByCompanyId();
-  }, [companyId]);
+    fetchUserCancellations().then((cancellationsData) => {
+      if (cancellationsData) {
+        fetchAppointmentsByCompanyId(cancellationsData);
+      }
+    });
+  }, [loggedUser.id, companyId]);
 
   useEffect(() => {
     console.log("LU: ", loggedUser);
