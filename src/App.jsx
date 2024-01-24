@@ -52,16 +52,15 @@ function App() {
                 />
               }
             >
-
-              
-              
-              
               <Route
                 path="/company/:companyId"
                 element={<EquipmentForCompany loggedUser={loggedUser} />}
               />
 
-
+              <Route
+                path="/user-reservations"
+                element={<UserReservations loggedUser={loggedUser} />}
+              />
             </Route>
             {/* FOR ADMIN */}
             <Route
@@ -75,8 +74,8 @@ function App() {
               <Route path="/add-company" element={<AddCompany />} />
               <Route path="/edit-company" element={<UpdateCompany />} />
               <Route
-              path="/add-appointment"
-              element={<AddAppointment loggedUser={loggedUser} />}
+                path="/add-appointment"
+                element={<AddAppointment loggedUser={loggedUser} />}
               />
               <Route path="/company" element={<CompanyOverview />} />
               <Route path="/search-equipment" element={<SearchEquipment />} />
@@ -89,9 +88,7 @@ function App() {
                 path="/search-equipment/:companyId"
                 element={<SearchEquipmentOfCompany />}
               />
-
             </Route>
-
           </Route>
         </Routes>
       </AuthProvider>
