@@ -40,6 +40,8 @@ function App() {
             <Route path="/reservation/:id" element={<ReservationDetails />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
             <Route path="/edit-account" element={<EditAccount />} />
+            <Route path="/search-companies" element={<SearchCompanies />} />
+
             {/* FOR USER */}
             <Route
               element={
@@ -52,7 +54,7 @@ function App() {
 
               
               
-              <Route path="/search-companies" element={<SearchCompanies />} />
+              
               <Route
                 path="/company/:companyId"
                 element={<EquipmentForCompany loggedUser={loggedUser} />}
