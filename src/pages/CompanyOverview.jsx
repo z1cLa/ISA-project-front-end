@@ -47,7 +47,12 @@ const CompanyOverview = () => {
         // Proveri da li companyId ima vrednost pre nego što izvršiš zahtev
         if (companyId) {
           const response = await fetch(
-            `http://localhost:8090/api/v1/company/${companyId}`
+            `http://localhost:8090/api/v1/company/${companyId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
           );
   
           if (!response.ok) {
@@ -73,7 +78,12 @@ const CompanyOverview = () => {
         // for now
         if(companyId){
         const response = await fetch(
-          `http://localhost:8090/api/v1/equipment/company/${companyId}`
+          `http://localhost:8090/api/v1/equipment/company/${companyId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
 
         if (!response.ok) {
@@ -95,7 +105,12 @@ const CompanyOverview = () => {
         // for now
         if(companyId){
         const response = await fetch(
-          `http://localhost:8090/api/v1/company/${companyId}/admins`
+          `http://localhost:8090/api/v1/company/${companyId}/admins`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
 
         if (!response.ok) {
@@ -166,6 +181,7 @@ const CompanyOverview = () => {
         `http://localhost:8090/api/v1/equipment/delete/${equipmentIdToDelete}`,
         {
           method: "DELETE",
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
 

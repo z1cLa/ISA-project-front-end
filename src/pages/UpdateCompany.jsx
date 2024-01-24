@@ -29,7 +29,8 @@ const EditCompany = () => {
 
   useEffect(() => {
     const getCompanyId = async () => {
-      const response = await fetch(`http://localhost:8090/api/v1/company/companyId/${loggedUser.id}`);
+      const response = await fetch(`http://localhost:8090/api/v1/company/companyId/${loggedUser.id}`),
+      ;
       const data = await response.json();
       setCompanyId(data);
       //alert(data);
@@ -43,7 +44,12 @@ const EditCompany = () => {
         // Proveri da li companyId ima vrednost pre nego što izvršiš zahtev
         if (companyId) {
           const response = await fetch(
-            `http://localhost:8090/api/v1/company/${companyId}`
+            `http://localhost:8090/api/v1/company/${companyId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
           );
   
           if (!response.ok) {

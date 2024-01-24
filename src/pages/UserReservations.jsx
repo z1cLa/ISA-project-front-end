@@ -9,7 +9,12 @@ function UserReservations({ loggedUser }) {
     const fetchReservations = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8090/api/v1/reservation/user/${loggedUser.id}`
+          `http://localhost:8090/api/v1/reservation/user/${loggedUser.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
         if (response.ok) {
           const data = await response.json();

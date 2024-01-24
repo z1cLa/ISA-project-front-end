@@ -50,7 +50,12 @@ const AppointmentForm = ({ loggedUser }) => {
     const fetchCompanyData = async () => {
       try {
         const companyResponse = await fetch(
-          "http://localhost:8090/api/v1/company/1"
+          "http://localhost:8090/api/v1/company/1",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
         if (companyResponse.ok) {
           const companyData = await companyResponse.json();
@@ -124,6 +129,7 @@ const AppointmentForm = ({ loggedUser }) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify(formData),
         }
