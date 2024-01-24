@@ -25,7 +25,12 @@ const ReservationCard = ({
     try {
       const response = await fetch(
         `http://localhost:8090/api/v1/reservation/cancel/${id}/${points}`,
-        { method: "DELETE" }
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
 
       console.log("RES:", reservation.appointment.id);
@@ -37,6 +42,7 @@ const ReservationCard = ({
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify({
             appointmentId: reservation.appointment.id,

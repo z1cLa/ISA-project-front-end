@@ -20,7 +20,13 @@ const SearchCompanies = () => {
     const fetchCompanies = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8090/api/v1/company/all"
+          "http://localhost:8090/api/v1/company/all",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
         if (response.ok) {
           const data = await response.json();

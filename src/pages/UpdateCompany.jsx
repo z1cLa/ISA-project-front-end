@@ -29,7 +29,12 @@ const EditCompany = () => {
       try {
         const companyId = 1; //for now
         const response = await fetch(
-          `http://localhost:8090/api/v1/company/${companyId}`
+          `http://localhost:8090/api/v1/company/${companyId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
 
         if (!response.ok) {

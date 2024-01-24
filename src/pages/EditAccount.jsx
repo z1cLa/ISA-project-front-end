@@ -33,7 +33,12 @@ const EditAccount = () => {
         // Replace 'userId' with the actual user ID you want to fetch
         const userId = 1; // Example user ID
         const response = await fetch(
-          `http://localhost:8090/api/v1/auth/user/${userId}`
+          `http://localhost:8090/api/v1/auth/user/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
 
         if (!response.ok) {

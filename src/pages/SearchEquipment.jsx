@@ -15,7 +15,12 @@ const SearchEquipment = () => {
     const fetchEquipment = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8090/api/v1/equipment/all"
+          "http://localhost:8090/api/v1/equipment/all",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
         if (response.ok) {
           const data = await response.json();
@@ -39,7 +44,12 @@ const SearchEquipment = () => {
         equipmentList.map(async (equipment) => {
           try {
             const response = await fetch(
-              `http://localhost:8090/api/v1/company/${equipment.companyId}`
+              `http://localhost:8090/api/v1/company/${equipment.companyId}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              }
             );
             if (response.ok) {
               const companyData = await response.json();

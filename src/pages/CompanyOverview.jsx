@@ -33,7 +33,12 @@ const CompanyOverview = () => {
       try {
         //for now
         const response = await fetch(
-          `http://localhost:8090/api/v1/company/${companyId}`
+          `http://localhost:8090/api/v1/company/${companyId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
 
         if (!response.ok) {
@@ -58,7 +63,12 @@ const CompanyOverview = () => {
       try {
         // for now
         const response = await fetch(
-          `http://localhost:8090/api/v1/equipment/company/${companyId}`
+          `http://localhost:8090/api/v1/equipment/company/${companyId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
 
         if (!response.ok) {
@@ -78,7 +88,12 @@ const CompanyOverview = () => {
       try {
         // for now
         const response = await fetch(
-          `http://localhost:8090/api/v1/company/${companyId}/admins`
+          `http://localhost:8090/api/v1/company/${companyId}/admins`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
 
         if (!response.ok) {
@@ -148,6 +163,7 @@ const CompanyOverview = () => {
         `http://localhost:8090/api/v1/equipment/delete/${equipmentIdToDelete}`,
         {
           method: "DELETE",
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
 

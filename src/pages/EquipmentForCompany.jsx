@@ -45,7 +45,12 @@ const EquipmentForCompany = ({ loggedUser }) => {
     const fetchCompanyById = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8090/api/v1/company/${companyId}`
+          `http://localhost:8090/api/v1/company/${companyId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
         if (response.ok) {
           const data = await response.json();
@@ -66,7 +71,12 @@ const EquipmentForCompany = ({ loggedUser }) => {
     const fetchEquipment = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8090/api/v1/equipment/company/${companyId}`
+          `http://localhost:8090/api/v1/equipment/company/${companyId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
         if (response.ok) {
           const data = await response.json();
@@ -86,7 +96,12 @@ const EquipmentForCompany = ({ loggedUser }) => {
     const fetchUserCancellations = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8090/api/v1/cancellation/user/${loggedUser.id}`
+          `http://localhost:8090/api/v1/cancellation/user/${loggedUser.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
         if (response.ok) {
           const data = await response.json();
@@ -103,7 +118,12 @@ const EquipmentForCompany = ({ loggedUser }) => {
     const fetchAppointmentsByCompanyId = async (cancellationsData) => {
       try {
         const response = await fetch(
-          `http://localhost:8090/api/v1/appointment/byCompany/${companyId}`
+          `http://localhost:8090/api/v1/appointment/byCompany/${companyId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
         if (response.ok) {
           const data = await response.json();
@@ -194,6 +214,7 @@ const EquipmentForCompany = ({ loggedUser }) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify(dataToSend),
         }
