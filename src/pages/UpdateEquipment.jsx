@@ -28,7 +28,12 @@ const EditEquipment = () => {
     const fetchEquipmentData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8090/api/v1/equipment/${id}`
+          `http://localhost:8090/api/v1/equipment/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
         );
 
         if (!response.ok) {
@@ -64,6 +69,7 @@ const EditEquipment = () => {
     await fetch(`http://localhost:8090/api/v1/equipment/update/${id}`, {
       method: "PUT",
       headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),

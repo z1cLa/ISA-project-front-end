@@ -14,7 +14,7 @@ const AddEquipment = () => {
     equipmentType: "",
     equipmentDescription: "",
     equipmentPrice: 0,
-    companyId: companyId, // HERE NEEDED TO PASS FROM ID FROM COMPANY OVERVIEW
+    companyId: companyId,
   });
 
   toastr.options = {

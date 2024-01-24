@@ -32,7 +32,13 @@ const CompanyOverview = () => {
 
   useEffect(() => {
     const getCompanyId = async () => {
-      const response = await fetch(`http://localhost:8090/api/v1/company/companyId/${loggedUser.id}`);
+      const response = await fetch(`http://localhost:8090/api/v1/company/companyId/${loggedUser.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+      );
       const data = await response.json();
       setCompanyId(data);
       //alert(data);

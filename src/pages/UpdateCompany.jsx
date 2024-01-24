@@ -29,8 +29,13 @@ const EditCompany = () => {
 
   useEffect(() => {
     const getCompanyId = async () => {
-      const response = await fetch(`http://localhost:8090/api/v1/company/companyId/${loggedUser.id}`),
-      ;
+      const response = await fetch(`http://localhost:8090/api/v1/company/companyId/${loggedUser.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+      );
       const data = await response.json();
       setCompanyId(data);
       //alert(data);
@@ -85,8 +90,10 @@ const EditCompany = () => {
     await fetch(`http://localhost:8090/api/v1/company/update/${companyId}`, {
       method: "PUT",
       headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
       },
+
       body: JSON.stringify(formData),
     });
     toastr.success("Company updated successful");

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./SearchEquipment.css";
-import Navbar from "../ui/Navbar"; // Import the Navbar component
 
 const SearchEquipment = () => {
   const [searchTerm, setSearchTerm] = useState("");

@@ -3,11 +3,14 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-time-picker/dist/TimePicker.css";
 import "./AddAppointment.css";
-import Navbar from "../ui/Navbar";
+import { useNavigate } from "react-router-dom";
 import toastr from "toastr";
 import "toastr/build/toastr.css";
 
 const AppointmentForm = ({ loggedUser }) => {
+
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     date: "",
     time: "",
@@ -45,12 +48,29 @@ const AppointmentForm = ({ loggedUser }) => {
     closeButton: true,
   };
 
+  const [companyId, setCompanyId] = useState(null);
   useEffect(() => {
-    // Fetch company data by ID
+    const getCompanyId = async () => {
+      const response = await fetch(`http://localhost:8090/api/v1/company/companyId/${loggedUser.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+      );
+      const data = await response.json();
+      setCompanyId(data);
+      //alert(data);
+    };
+    getCompanyId();
+  }, []);
+  
+
+  useEffect(() => {
     const fetchCompanyData = async () => {
       try {
         const companyResponse = await fetch(
-          "http://localhost:8090/api/v1/company/1",
+          `http://localhost:8090/api/v1/company/${companyId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -71,20 +91,7 @@ const AppointmentForm = ({ loggedUser }) => {
 
     // Fetch user data by ID
     const fetchUserData = async () => {
-      // try {
-      //   const userResponse = await fetch(
-      //     "http://localhost:8090/api/v1/auth/user/1"
-      //   );
-      //   if (userResponse.ok) {
-      //     const userData = await userResponse.json();
-      //     setFormData((prevData) => ({
-      //       ...prevData,
-      //       user: userData,
-      //     }));
-      //   }
-      // } catch (error) {
-      //   console.error("Error fetching user data:", error);
-      // }
+
       setFormData((prevData) => ({
         ...prevData,
         user: loggedUser,
@@ -94,7 +101,7 @@ const AppointmentForm = ({ loggedUser }) => {
     // Call the fetch functions
     fetchCompanyData();
     fetchUserData();
-  }, []); // The empty dependency array ensures that this effect runs only once, similar to componentDidMount
+  }, [companyId]); // The empty dependency array ensures that this effect runs only once, similar to componentDidMount
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -139,6 +146,7 @@ const AppointmentForm = ({ loggedUser }) => {
         const data = await response.json();
         console.log("Appointment created successfully:", data);
         toastr.success("Appointment created successfuly");
+        navigate("/company");
         // Handle success (e.g., redirect to a success page)
       } else {
         const errorData = await response.json();
@@ -157,6 +165,7 @@ const AppointmentForm = ({ loggedUser }) => {
   return (
     <>
       <form className="forma" onSubmit={handleSubmit}>
+
         <label>Date:</label>
         <DatePicker
           className="ubaci1"
