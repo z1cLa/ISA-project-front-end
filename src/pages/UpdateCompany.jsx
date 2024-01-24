@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./UpdateCompany.css";
-import Navbar from "../ui/Navbar";
 import toastr from "toastr";
 import "toastr/build/toastr.css";
 import { useNavigate } from "react-router-dom";
+import useAuth from "./../hooks/useAuth"
 
 const EditCompany = () => {
+  const { loggedUser } = useAuth();
+  const [companyId, setCompanyId] = useState(null);
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     companyName: "",
@@ -25,32 +28,45 @@ const EditCompany = () => {
   //const [errors, setErrors] = useState({});
 
   useEffect(() => {
+    const getCompanyId = async () => {
+      const response = await fetch(`http://localhost:8090/api/v1/company/companyId/${loggedUser.id}`);
+      const data = await response.json();
+      setCompanyId(data);
+      //alert(data);
+    };
+    getCompanyId();
+  }, []);
+
+  useEffect(() => {
     const fetchCompanyData = async () => {
       try {
-        const companyId = 1; //for now
-        const response = await fetch(
-          `http://localhost:8090/api/v1/company/${companyId}`
-        );
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch user data: ${response.statusText}`);
+        // Proveri da li companyId ima vrednost pre nego što izvršiš zahtev
+        if (companyId) {
+          const response = await fetch(
+            `http://localhost:8090/api/v1/company/${companyId}`
+          );
+  
+          if (!response.ok) {
+            throw new Error(`Failed to fetch company data: ${response.statusText}`);
+          }
+  
+          const companyData = await response.json();
+  
+          setFormData({
+            companyName: companyData.companyName || "",
+            address: companyData.address || "",
+            description: companyData.description || "",
+            averageGrade: companyData.averageGrade || "",
+          });
         }
-
-        const userData = await response.json();
-
-        setFormData({
-          companyName: userData.companyName || "",
-          address: userData.address || "",
-          description: userData.description || "",
-          averageGrade: userData.averageGrade || "",
-        });
       } catch (error) {
         console.error(error);
       }
     };
-
+  
     fetchCompanyData();
-  }, []);
+  }, [companyId]);
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -59,7 +75,7 @@ const EditCompany = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const companyId = 1;
+    alert(companyId);
     await fetch(`http://localhost:8090/api/v1/company/update/${companyId}`, {
       method: "PUT",
       headers: {
@@ -74,6 +90,7 @@ const EditCompany = () => {
   return (
     <>
       <div className="form-container">
+      {/* <h1>{userId}</h1> */}
         <form className="form" onSubmit={handleSubmit}>
           <div className="form-group">
             <input

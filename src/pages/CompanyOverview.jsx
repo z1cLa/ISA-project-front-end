@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./CompanyOverview.css";
 import { Link } from "react-router-dom";
-import Navbar from "../ui/Navbar";
 import toastr from "toastr";
 import "toastr/build/toastr.css";
+import useAuth from "./../hooks/useAuth"
 
 const CompanyOverview = () => {
+  const { loggedUser } = useAuth();
+  const [companyId, setCompanyId] = useState(null);
+
   const [formData, setFormData] = useState({
     companyName: "",
     address: "",
@@ -19,7 +22,6 @@ const CompanyOverview = () => {
   const [equipmentPopupOpen, setEquipmentPopupOpen] = useState(false);
   const [adminPopupOpen, setAdminPopupOpen] = useState(false);
   const [selectedEquipmentIndex, setSelectedEquipmentIndex] = useState(0);
-  const companyId = 102;
 
   toastr.options = {
     positionClass: "toast-top-right",
@@ -29,26 +31,38 @@ const CompanyOverview = () => {
   };
 
   useEffect(() => {
+    const getCompanyId = async () => {
+      const response = await fetch(`http://localhost:8090/api/v1/company/companyId/${loggedUser.id}`);
+      const data = await response.json();
+      setCompanyId(data);
+      //alert(data);
+    };
+    getCompanyId();
+  }, []);
+
+
+  useEffect(() => {
     const fetchCompanyData = async () => {
       try {
-        //for now
-        const response = await fetch(
-          `http://localhost:8090/api/v1/company/${companyId}`
-        );
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch user data: ${response.statusText}`);
+        // Proveri da li companyId ima vrednost pre nego što izvršiš zahtev
+        if (companyId) {
+          const response = await fetch(
+            `http://localhost:8090/api/v1/company/${companyId}`
+          );
+  
+          if (!response.ok) {
+            throw new Error(`Failed to fetch company data: ${response.statusText}`);
+          }
+  
+          const companyData = await response.json();
+  
+          setFormData({
+            companyName: companyData.companyName || "",
+            address: companyData.address || "",
+            description: companyData.description || "",
+            averageGrade: companyData.averageGrade || "",
+          });
         }
-
-        const userData = await response.json();
-
-        setFormData({
-          companyName: userData.companyName || "",
-          address: userData.address || "",
-          description: userData.description || "",
-          averageGrade: userData.averageGrade || "",
-          appointmentId: userData.appointmentId || "",
-        });
       } catch (error) {
         console.error(error);
       }
@@ -57,6 +71,7 @@ const CompanyOverview = () => {
     const fetchEquipmentData = async () => {
       try {
         // for now
+        if(companyId){
         const response = await fetch(
           `http://localhost:8090/api/v1/equipment/company/${companyId}`
         );
@@ -69,6 +84,7 @@ const CompanyOverview = () => {
 
         const equipmentData = await response.json();
         setEquipment(equipmentData);
+      }
       } catch (error) {
         console.error(error);
       }
@@ -77,6 +93,7 @@ const CompanyOverview = () => {
     const fetchAdminsData = async () => {
       try {
         // for now
+        if(companyId){
         const response = await fetch(
           `http://localhost:8090/api/v1/company/${companyId}/admins`
         );
@@ -89,6 +106,7 @@ const CompanyOverview = () => {
 
         const adminsData = await response.json();
         setAdmins(adminsData);
+      }
       } catch (error) {
         console.error(error);
       }
@@ -97,7 +115,7 @@ const CompanyOverview = () => {
     fetchCompanyData();
     fetchEquipmentData();
     fetchAdminsData();
-  }, []);
+  }, [companyId]);
 
   const handlePopupToggle = () => {
     if (equipment.length === 0) {
