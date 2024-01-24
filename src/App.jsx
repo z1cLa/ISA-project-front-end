@@ -22,6 +22,7 @@ import Unauthorized from "./pages/Unauthorized";
 import Navbar from "./ui/Navbar";
 import useAuth from "./hooks/useAuth";
 import ReservationDetails from "./pages/ReservationDetails";
+import UserReservations from "./pages/UserReservations";
 
 function App() {
   const { loggedUser, setLoggedUser } = useAuth();
