@@ -16,6 +16,7 @@ const EditAccount = () => {
     phoneNumber: "",
     profession: "",
     companyInfo: "",
+    penaltyPoints:"",
   });
 
   toastr.options = {
@@ -31,9 +32,9 @@ const EditAccount = () => {
     const fetchUserData = async () => {
       try {
         // Replace 'userId' with the actual user ID you want to fetch
-        const userId = 1; // Example user ID
+        const userId = 5; // Example user ID
         const response = await fetch(
-          `http://localhost:8090/api/v1/auth/user/${userId}`,
+          `http://localhost:8090/api/v1/auth/oneUser/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -58,6 +59,7 @@ const EditAccount = () => {
           phoneNumber: userData.phoneNumber || "",
           profession: userData.profession || "",
           companyInfo: userData.companyInfo || "",
+          penaltyPoints: userData.penaltyPoints || "",
         });
       } catch (error) {
         console.error(error);
@@ -94,7 +96,7 @@ const EditAccount = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Assuming you have a userId to identify the user being updated
-    const userId = 1;
+    const userId = 5;
     const response = await fetch(
       `http://localhost:8090/api/v1/auth/user/${userId}`,
       {
@@ -227,7 +229,7 @@ const EditAccount = () => {
 
           <div className="form-group">
             <label>Penalty Points:</label>
-            <span>{/* Add logic to display penalty points */}0</span>
+            <span>{/* Add logic to display penalty points */}{formData.penaltyPoints}</span>
           </div>
 
           <div className="form-group">
