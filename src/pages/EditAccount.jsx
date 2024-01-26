@@ -114,6 +114,7 @@ const EditAccount = ({ loggedUser }) => {
         method: "PUT", // Change the method to PUT
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(formData),
       }
