@@ -3,8 +3,12 @@ import "./EditAccount.css";
 import Navbar from "../ui/Navbar";
 import toastr from "toastr";
 import "toastr/build/toastr.css";
+import { useNavigate } from "react-router-dom";
 
-const EditAccount = () => {
+const EditAccount = ({ loggedUser }) => {
+
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -16,7 +20,8 @@ const EditAccount = () => {
     phoneNumber: "",
     profession: "",
     companyInfo: "",
-    penaltyPoints:"",
+    penaltyPoints: "0",
+    user: {},
   });
 
   toastr.options = {
@@ -32,9 +37,8 @@ const EditAccount = () => {
     const fetchUserData = async () => {
       try {
         // Replace 'userId' with the actual user ID you want to fetch
-        const userId = 5; // Example user ID
         const response = await fetch(
-          `http://localhost:8090/api/v1/auth/oneUser/${userId}`,
+          `http://localhost:8090/api/v1/auth/oneUser/${loggedUser.id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -59,14 +63,22 @@ const EditAccount = () => {
           phoneNumber: userData.phoneNumber || "",
           profession: userData.profession || "",
           companyInfo: userData.companyInfo || "",
-          penaltyPoints: userData.penaltyPoints || "",
+          penaltyPoints: userData.penaltyPoints || "0",
         });
       } catch (error) {
         console.error(error);
       }
     };
+    const fetchUser2Data = async () => {
+
+      setFormData((prevData) => ({
+        ...prevData,
+        user: loggedUser,
+      }));
+    };
 
     fetchUserData();
+    fetchUser2Data();
   }, []); // Empty dependency array ensures this effect runs only once on mount
   const validatePassword = () => {
     if (formData.password.length < 8) {
@@ -96,9 +108,8 @@ const EditAccount = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Assuming you have a userId to identify the user being updated
-    const userId = 5;
     const response = await fetch(
-      `http://localhost:8090/api/v1/auth/user/${userId}`,
+      `http://localhost:8090/api/v1/auth/user/${loggedUser.id}`,
       {
         method: "PUT", // Change the method to PUT
         headers: {
