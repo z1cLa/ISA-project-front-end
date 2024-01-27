@@ -42,7 +42,7 @@ function App() {
             />
             <Route path="/reservation/:id" element={<ReservationDetails />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
-            <Route path="/edit-account" element={<EditAccount />} />
+            <Route path="/edit-account" element={<EditAccount loggedUser={loggedUser}/>} />
             <Route path="/search-companies" element={<SearchCompanies />} />
 
             {/* FOR USER */}
