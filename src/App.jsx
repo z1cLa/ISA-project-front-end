@@ -23,6 +23,8 @@ import Navbar from "./ui/Navbar";
 import useAuth from "./hooks/useAuth";
 import ReservationDetails from "./pages/ReservationDetails";
 import UserReservations from "./pages/UserReservations";
+import CompanyReservations from "./pages/CompanyReservations";
+import MakeUserAdmin from "./pages/MakeUserAdmin";
 
 function App() {
   const { loggedUser, setLoggedUser } = useAuth();
@@ -56,11 +58,18 @@ function App() {
                 path="/company/:companyId"
                 element={<EquipmentForCompany loggedUser={loggedUser} />}
               />
+              <Route path="/search-equipment" element={<SearchEquipment />} />
+
+              <Route
+                path="/company-reservations"
+                element={<CompanyReservations loggedUser={loggedUser} />}
+              />
 
               <Route
                 path="/user-reservations"
                 element={<UserReservations loggedUser={loggedUser} />}
               />
+
             </Route>
             {/* FOR ADMIN */}
             <Route
@@ -87,6 +96,10 @@ function App() {
               <Route
                 path="/search-equipment/:companyId"
                 element={<SearchEquipmentOfCompany />}
+              />
+              <Route
+                path="/make-user-admin"
+                element={<MakeUserAdmin />}
               />
             </Route>
           </Route>
