@@ -41,7 +41,6 @@ const CompanyOverview = ({loggedUser}) => {
       );
       const data = await response.json();
       setCompanyId(data);
-      //alert(data);
     };
     getCompanyId();
   }, []);
