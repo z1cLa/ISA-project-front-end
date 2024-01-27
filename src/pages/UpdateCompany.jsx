@@ -5,8 +5,8 @@ import "toastr/build/toastr.css";
 import { useNavigate } from "react-router-dom";
 import useAuth from "./../hooks/useAuth"
 
-const EditCompany = () => {
-  const { loggedUser } = useAuth();
+const EditCompany = ({ loggedUser }) => {
+
   const [companyId, setCompanyId] = useState(null);
 
   const navigate = useNavigate();
@@ -86,7 +86,6 @@ const EditCompany = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    alert(companyId);
     await fetch(`http://localhost:8090/api/v1/company/update/${companyId}`, {
       method: "PUT",
       headers: {

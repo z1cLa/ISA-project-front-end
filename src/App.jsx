@@ -81,7 +81,7 @@ function App() {
               }
             >
               <Route path="/add-company" element={<AddCompany />} />
-              <Route path="/edit-company" element={<UpdateCompany />} />
+              <Route path="/edit-company" element={<UpdateCompany loggedUser={loggedUser}/>} />
               <Route
                 path="/add-appointment"
                 element={<AddAppointment loggedUser={loggedUser} />}
