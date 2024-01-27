@@ -3,10 +3,10 @@ import "./CompanyOverview.css";
 import { Link } from "react-router-dom";
 import toastr from "toastr";
 import "toastr/build/toastr.css";
-import useAuth from "./../hooks/useAuth"
 
-const CompanyOverview = () => {
-  const { loggedUser } = useAuth();
+
+const CompanyOverview = ({loggedUser}) => {
+  
   const [companyId, setCompanyId] = useState(null);
 
   const [formData, setFormData] = useState({

@@ -23,11 +23,23 @@ const Navbar = ({ loggedUserParam }) => {
         />
       </Link>
       <div className="nav-links">
+        
+       {!loggedUser && (
+        <div>
         <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>
+        <Link to="/register">Register</Link>    
+        </div>
+        )}
+
+      {loggedUser?.roles[0].name.includes('ROLE_ADMIN') && (
+              <div>
+              <Link to="/add-company">Add Company</Link>
+              <Link to="/company">Your company</Link>
+              </div>
+      )}
+        
         <Link to="/edit-account">Edit Account</Link>
-        <Link to="/add-company">Add Company</Link>
-        <Link to="/company">Your company</Link>
+
         <Link to="/search-equipment">Search Equipment</Link>
         <Link to="/search-companies">Search Companies</Link>
         <Link to="/add-appointment">Add Appointment</Link>

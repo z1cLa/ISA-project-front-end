@@ -32,7 +32,7 @@ function App() {
       <AuthProvider loggedUserParam={loggedUser}>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home loggedUser={loggedUser} />} />
             <Route path="/register" element={<Register />} />
             <Route
               path="/login"
@@ -77,7 +77,7 @@ function App() {
                 path="/add-appointment"
                 element={<AddAppointment loggedUser={loggedUser} />}
               />
-              <Route path="/company" element={<CompanyOverview />} />
+              <Route path="/company"  element={<CompanyOverview loggedUser={loggedUser}/>} />
               <Route path="/search-equipment" element={<SearchEquipment />} />
               <Route path="/edit-equipment/:id" element={<UpdateEquipment />} />
               <Route
