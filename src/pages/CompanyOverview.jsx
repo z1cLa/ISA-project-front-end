@@ -53,7 +53,7 @@ const CompanyOverview = ({loggedUser}) => {
         // Proveri da li companyId ima vrednost pre nego što izvršiš zahtev
         if (companyId) {
           const response = await fetch(
-            `http://localhost:8090/api/v1/company/${companyId}`,
+            `http://localhost:8090/api/v1/company/id/${companyId}`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,

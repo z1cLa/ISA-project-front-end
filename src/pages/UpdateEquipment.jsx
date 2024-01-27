@@ -28,7 +28,7 @@ const EditEquipment = () => {
     const fetchEquipmentData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8090/api/v1/equipment/${id}`,
+          `http://localhost:8090/api/v1/equipment/id/${id}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
