@@ -43,7 +43,7 @@ const SearchEquipment = () => {
         equipmentList.map(async (equipment) => {
           try {
             const response = await fetch(
-              `http://localhost:8090/api/v1/company/${equipment.companyId}`,
+              `http://localhost:8090/api/v1/company/id/${equipment.companyId}`,
               {
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem("token")}`,
