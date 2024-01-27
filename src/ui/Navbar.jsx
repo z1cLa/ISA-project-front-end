@@ -35,17 +35,24 @@ const Navbar = ({ loggedUserParam }) => {
               <div>
               <Link to="/add-company">Add Company</Link>
               <Link to="/company">Your company</Link>
+              <Link to="/add-appointment">Add Appointment</Link>
+              <Link to="/make-user-admin">Manage Admins</Link>
               </div>
       )}
         
-        <Link to="/edit-account">Edit Account</Link>
+        {loggedUser?.roles[0].name.includes('ROLE_USER') && (
+              <div>
+              <Link to="/edit-account">Edit Account</Link>
+              <Link to="/search-equipment">Search Equipment</Link>
+              <Link to="/search-companies">Search Companies</Link>
 
-        <Link to="/search-equipment">Search Equipment</Link>
-        <Link to="/search-companies">Search Companies</Link>
-        <Link to="/add-appointment">Add Appointment</Link>
-        <Link to="/user-reservations">My Reservations</Link>
-        <Link to="/company-reservations">Company Reservations</Link>
-        <Link to="/make-user-admin">Manage Admins</Link>
+              <Link to="/user-reservations">My Reservations</Link>
+              <Link to="/company-reservations">Company Reservations</Link>
+
+              </div>
+      )}
+
+        
       </div>
       {loggedUser && (
         <div className="nav-user-info">
