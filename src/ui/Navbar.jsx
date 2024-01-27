@@ -44,6 +44,8 @@ const Navbar = ({ loggedUserParam }) => {
         <Link to="/search-companies">Search Companies</Link>
         <Link to="/add-appointment">Add Appointment</Link>
         <Link to="/user-reservations">My Reservations</Link>
+        <Link to="/company-reservations">Company Reservations</Link>
+        <Link to="/make-user-admin">Manage Admins</Link>
       </div>
       {loggedUser && (
         <div className="nav-user-info">
