@@ -8,19 +8,20 @@ const NewAppointment = ({ selectedEquipment }) => {
 
   const [formData, setFormData] = useState({ date: "" });
 
-  const [avialableTimes, setAvialableTimes] = useState(["16:00:00"]);
+  const [avialableTimes, setAvialableTimes] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("url-koji-coa-debeli-nije-napravio", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...formData, companyId }),
-      });
+      const response = await fetch(
+        `http://localhost:8090/api/v1/appointment/freeTimes/${companyId}/${formData.date}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -83,9 +84,19 @@ const NewAppointment = ({ selectedEquipment }) => {
             type="date"
             name="date"
             value={formData.date}
-            onChange={(e) =>
-              setFormData((prev) => ({ ...prev, date: e.target.value }))
-            }
+            onChange={(e) => {
+              const selectedDate = e.target.value;
+              const today = new Date().toISOString().split('T')[0];
+  
+              // Check if the selected date is not in the past
+              if (selectedDate >= today) {
+                setFormData((prev) => ({ ...prev, date: selectedDate }));
+              } else {
+                // Optionally, you can provide feedback to the user or handle the invalid input
+                console.error('Please select a future date.');
+              }
+            }}
+            min={new Date().toISOString().split('T')[0]}  // Set the minimum date to today
             required
           />
           <label>Date</label>
@@ -100,7 +111,7 @@ const NewAppointment = ({ selectedEquipment }) => {
         {avialableTimes &&
           avialableTimes.map((time) => (
             <li key={time}>
-              <span>{time}</span>
+              <span style={{ color: 'black' }}>{time}</span>
               <button onClick={() => onNewAppointmentTimeSelect(time)}>
                 Reserve
               </button>
