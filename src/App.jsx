@@ -97,11 +97,23 @@ function App() {
                 path="/search-equipment/:companyId"
                 element={<SearchEquipmentOfCompany />}
               />
+            </Route>
+
+            {/* FOR ADMIN */}
+            <Route
+              element={
+                <RequireAuth
+                  loggedUser={loggedUser}
+                  allowedRoles={["ROLE_SYSADMIN"]}
+                />
+              }
+            >
               <Route
                 path="/make-user-admin"
                 element={<MakeUserAdmin />}
               />
             </Route>
+
           </Route>
         </Routes>
       </AuthProvider>

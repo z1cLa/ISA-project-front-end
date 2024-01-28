@@ -36,7 +36,7 @@ const MakeUserAdmin = () => {
       const response = await fetch(
         `http://localhost:8090/api/v1/users/${selectedUserId}/make-admin`,
         {
-          method: "POST", // Assuming the endpoint supports PUT method
+          method: "PUT", // Assuming the endpoint supports PUT method
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,

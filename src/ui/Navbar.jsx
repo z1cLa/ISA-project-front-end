@@ -31,15 +31,6 @@ const Navbar = ({ loggedUserParam }) => {
         </div>
         )}
 
-      {loggedUser?.roles[0].name.includes('ROLE_ADMIN') && (
-              <div>
-              <Link to="/add-company">Add Company</Link>
-              <Link to="/company">Your company</Link>
-              <Link to="/add-appointment">Add Appointment</Link>
-              <Link to="/make-user-admin">Manage Admins</Link>
-              </div>
-      )}
-        
         {loggedUser?.roles[0].name.includes('ROLE_USER') && (
               <div>
               <Link to="/edit-account">Edit Account</Link>
@@ -49,6 +40,20 @@ const Navbar = ({ loggedUserParam }) => {
               <Link to="/user-reservations">My Reservations</Link>
               <Link to="/company-reservations">Company Reservations</Link>
 
+              </div>
+      )}
+
+        {loggedUser?.roles[0].name.includes('ROLE_ADMIN') && (
+              <div>
+              <Link to="/add-company">Add Company</Link>
+              <Link to="/company">Your company</Link>
+              <Link to="/add-appointment">Add Appointment</Link>
+              </div>
+      )}
+
+        {loggedUser?.roles[0].name.includes('ROLE_SYSADMIN') && (
+              <div>
+              <Link to="/make-user-admin">Manage Admins</Link>
               </div>
       )}
 
