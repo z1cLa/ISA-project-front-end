@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import useAuth from "../hooks/useAuth";
-import { getLoggedUser } from "../utils/getLoggedUser";
 
 const Navbar = ({ loggedUserParam }) => {
   const navigate = useNavigate(); // To programmatically navigate after logout
@@ -36,6 +35,7 @@ const Navbar = ({ loggedUserParam }) => {
               <Link to="/add-company">Add Company</Link>
               <Link to="/company">Your company</Link>
               <Link to="/add-appointment">Add Appointment</Link>
+              <Link to="taking-equipment">Take equipment</Link>
               <Link to="/make-user-admin">Manage Admins</Link>
               </div>
       )}
