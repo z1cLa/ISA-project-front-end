@@ -80,16 +80,6 @@ const EditAccount = ({ loggedUser }) => {
     fetchUserData();
     fetchUser2Data();
   }, []); // Empty dependency array ensures this effect runs only once on mount
-  const validatePassword = () => {
-    if (formData.password.length < 8) {
-      setErrors({
-        ...errors,
-        password: "Password must be at least 8 characters",
-      });
-    } else {
-      setErrors({ ...errors, password: "" });
-    }
-  };
 
   const validatePhoneNumber = () => {
     // Assuming a simple validation for a 10-digit phone number
@@ -128,20 +118,6 @@ const EditAccount = ({ loggedUser }) => {
     <>
       <div className="edit-container">
         <form onSubmit={handleSubmit} className="two-column-form">
-          <div className="form-group">
-            <label>Password:</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              onBlur={validatePassword}
-              required
-            />
-            {errors.password && (
-              <div className="error-message">{errors.password}</div>
-            )}
-          </div>
 
           <div className="form-group">
             <label>First Name:</label>
@@ -237,6 +213,10 @@ const EditAccount = ({ loggedUser }) => {
             {errors.companyInfo && (
               <div className="error-message">{errors.companyInfo}</div>
             )}
+          </div>
+
+          <div>
+            
           </div>
 
           <div className="form-group">
