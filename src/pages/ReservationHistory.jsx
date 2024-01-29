@@ -20,7 +20,34 @@ function ReservationHistory({ loggedUser }) {
           );
           if (response.ok) {
             const data = await response.json();
-            setReservations(data);
+
+            // Fetch total price for each reservation
+            const reservationsWithPrices = await Promise.all(
+              data.map(async (reservation) => {
+                const totalPriceResponse = await fetch(
+                  `http://localhost:8090/api/v1/reservation/totalPriceForReservation/${reservation.id}`,
+                  {
+                    headers: {
+                      Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                  }
+                );
+
+                if (totalPriceResponse.ok) {
+                  const totalPriceData = await totalPriceResponse.json();
+                  return {
+                    ...reservation,
+                    totalPrice: totalPriceData,
+                  };
+                } else {
+                  console.error(`Failed to fetch total price for reservation ${reservation.id}`);
+                  return reservation;
+                }
+              })
+            );
+
+            setReservations(reservationsWithPrices);
+            console.log(reservations)
           } else {
             console.error("Failed to fetch reservations for user");
             // Optionally, set reservations to an empty array or an error state

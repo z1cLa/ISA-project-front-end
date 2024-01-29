@@ -33,6 +33,9 @@ const ReservationHistoryCard = ({
       <p>
         <strong>Duration:</strong> {reservation.appointment.duration} hours
       </p>
+      <p>
+        <strong>Total Price:</strong> {reservation.totalPrice.toFixed(2)} RSD
+      </p>
     </div>
   );
 };
