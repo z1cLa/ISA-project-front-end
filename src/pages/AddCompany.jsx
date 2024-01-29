@@ -25,6 +25,7 @@ const AddCompany = () => {
 
   const [admins, setAdmins] = useState([]);
   const [errors, setErrors] = useState({});
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,27 +60,79 @@ const AddCompany = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const response = await fetch("http://localhost:8090/api/v1/company/save", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify(companyData),
-    });
-
-    if (response.ok) {
-      console.log("Company posted successfully");
-      console.log(companyData);
-      toastr.success("Company created successful");
-      navigate("/");
-    } else {
-      const data = await response.json();
-      setErrors(data.errors);
+  const handleMakeCompanyAdmin = async (userId) => {
+    try {
+      if (!userId) {
+        console.error("Selected admin ID is null. Cannot make user admin.");
+        return;
+      }
+  
+      console.log(`Making user ${userId} an admin...`);
+      const response = await fetch(
+        `http://localhost:8090/api/v1/users/${userId}/make-company-admin`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+  
+      if (response.ok) {
+        console.log("User made company admin successfully");
+      } else {
+        console.error("Failed to make user admin");
+      }
+    } catch (error) {
+      console.error("Error making user admin", error);
     }
   };
+  
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      // 1. Save the company
+      const response = await fetch("http://localhost:8090/api/v1/company/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(companyData),
+      });
+  
+      if (!response.ok) {
+        const data = await response.json();
+        setErrors(data.errors);
+        return; // Stop execution if there's an error in saving the company
+      }
+  
+      console.log("Company posted successfully");
+      console.log(companyData);
+      toastr.success("Company created successfully");
+  
+      // 2. Get the saved company data
+      const savedCompany = await response.json();
+  
+      // 3. Get the selected admin's user ID
+      const selectedAdminId = companyData.admins.length > 0 ? companyData.admins[0].id : null;
+      console.log(selectedAdminId);
+  
+      // 4. Make the selected admin an admin of the company
+      if (selectedAdminId) {
+        await handleMakeCompanyAdmin(selectedAdminId);
+      }
+  
+      // 5. Navigate to the desired page
+      navigate("/");
+    } catch (error) {
+      console.error("Error in handling submit:", error);
+    }
+  };
+  
 
   return (
     <>
@@ -168,17 +221,17 @@ const AddCompany = () => {
             <label>Select Admin:</label>
             <select
               name="selectedAdmin"
-              value={
-                companyData.admins.length > 0 ? companyData.admins[0].id : ""
-              }
+              value={companyData.admins.length > 0 ? companyData.admins[0].id : ""}
               onChange={handleChange}
             >
               <option value={null}>Select Admin</option>
-              {admins.map((admin) => (
-                <option key={admin.id} value={admin.id}>
-                  {admin.firstName} {admin.lastName}
-                </option>
-              ))}
+              {admins
+                .filter(admin => admin.roles[0].name.includes('ROLE_USER'))
+                .map(admin => (
+                  <option key={admin.id} value={admin.id}>
+                    {admin.firstName} {admin.lastName}
+                  </option>
+                ))}
             </select>
           </div>
 
