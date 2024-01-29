@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import toastr from "toastr";
+import "toastr/build/toastr.css";
 
-const NewAppointment = ({ selectedEquipment }) => {
+const NewAppointment = ({ selectedEquipment, companyData, loggedUser}) => {
   const { companyId } = useParams();
 
   const navigate = useNavigate();
@@ -9,6 +11,29 @@ const NewAppointment = ({ selectedEquipment }) => {
   const [formData, setFormData] = useState({ date: "" });
 
   const [avialableTimes, setAvialableTimes] = useState([]);
+
+  const [appointment, setAppointment] = useState({
+    date: "",
+    time: "",
+    duration: "1",
+    isCompaniesAppointment: "false",
+    isReserved: "false",
+    company: {
+      id: "",
+      companyName: "",
+      address: "",
+      description: "",
+      averageGrade: "",
+    },
+    user: null,
+  });
+
+  toastr.options = {
+    positionClass: "toast-top-right",
+    hideDuration: 300,
+    timeOut: 3000,
+    closeButton: true,
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,41 +65,43 @@ const NewAppointment = ({ selectedEquipment }) => {
     }
   };
 
-  const onNewAppointmentTimeSelect = async (time) => {
-    console.log(time);
-    console.log(formData.date);
-    console.log(selectedEquipment);
-
-    try {
-      const response = await fetch("url-koji-coa-debeli-nije-napravio", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData,
-          companyId,
-          equipment: [...selectedEquipment],
-          time,
-        }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Reservation created successfully:", data);
-        navigate("coa");
-      } else {
-        const errorData = await response.json();
-        console.error(
-          "Error creating reservation:",
-          response.statusText,
-          errorData
-        );
-      }
-    } catch (error) {
-      console.error("Error creating reservation:", error);
-    }
+  const onChooseTime = (time) =>
+  {
+    setAppointment((prevData) => ({
+      ...prevData,
+      company: companyData,
+      date: formData.date,
+      time: time,
+    }));
   };
+
+  const onNewAppointmentTimeSelect = async () => {
+      try {
+        const response = await fetch("http://localhost:8090/api/v1/appointment/saveForSpecificAppointment", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify(appointment),
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Appointment created successfully:", data);
+          toastr.success("Appointment created successfully");
+        } else {
+          const errorData = await response.json();
+          console.error(
+            "Error creating reservation:",
+            response.statusText,
+            errorData
+          );
+        }
+      } catch (error) {
+        console.error("Error creating reservation:", error);
+      }
+    };
 
   return (
     <div className="form-container">
@@ -112,12 +139,21 @@ const NewAppointment = ({ selectedEquipment }) => {
           avialableTimes.map((time) => (
             <li key={time}>
               <span style={{ color: 'black' }}>{time}</span>
-              <button onClick={() => onNewAppointmentTimeSelect(time)}>
-                Reserve
+              <button onClick={() => onChooseTime(time)}>
+                Choose time
               </button>
             </li>
           ))}
       </ul>
+      {appointment.time && (
+        <div>
+          <label>Selected date and time:</label>
+          <span>{appointment.date} / {appointment.time}</span>
+          <button onClick={onNewAppointmentTimeSelect}>
+            Reserve
+          </button>
+        </div>
+      )}
     </div>
   );
 };

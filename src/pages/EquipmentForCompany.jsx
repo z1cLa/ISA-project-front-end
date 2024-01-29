@@ -324,6 +324,8 @@ const EquipmentForCompany = ({ loggedUser }) => {
             {showMakeNewAppointment && (
               <NewAppointment
                 selectedEquipment={selectedEquipment}
+                companyData={company}
+                loggedUser={loggedUser}
               />
             )}
           </div>
