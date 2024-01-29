@@ -2,7 +2,6 @@ import "./Home.css"
 
 function Home({loggedUser}) {
   
-  console.log("ROLA BAJO:", loggedUser?.roles[0].name);
   return (
     <div>
       <div className="App">

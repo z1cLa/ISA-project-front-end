@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./EquipmentForCompany.css";
+import toastr from "toastr";
 import NewAppointment from "../components/NewAppointment";
 
 const EquipmentForCompany = ({ loggedUser }) => {
@@ -223,7 +224,7 @@ const EquipmentForCompany = ({ loggedUser }) => {
       if (response.ok) {
         const data = await response.json();
         console.log("Reservation created successfully:", data);
-        //toastr.success('Appointment created successfuly')
+        toastr.success('Appointment created successfuly')
         // Handle success (e.g., redirect to a success page)
       } else {
         const errorData = await response.json();
