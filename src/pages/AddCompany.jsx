@@ -10,6 +10,8 @@ const AddCompany = () => {
     companyName: "",
     address: "",
     description: "",
+    startTime: "",
+    endTime: "",
     averageGrade: 0.0,
     admins: [], // Change the field name to selectedAdmins and initialize as an array
   });
@@ -123,6 +125,29 @@ const AddCompany = () => {
               <div className="error-message">{errors.description}</div>
             )}
           </div>
+
+          <label>Start time:</label>
+            <input
+              className="ubaci"
+              type="text"
+              name="startTime"
+              value={companyData.startTime}
+              onChange={handleChange}
+              placeholder="HH:mm:ss"
+              required
+          />
+
+              
+          <label>End time:</label>
+            <input
+              className="ubaci"
+              type="text"
+              name="endTime"
+              value={companyData.endTime}
+              onChange={handleChange}
+              placeholder="HH:mm:ss"
+              required
+          />
 
           <div className="form-group">
             <label>Average Grade:</label>

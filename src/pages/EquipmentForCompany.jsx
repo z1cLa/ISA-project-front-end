@@ -322,7 +322,9 @@ const EquipmentForCompany = ({ loggedUser }) => {
               Make new appointment
             </button>
             {showMakeNewAppointment && (
-              <NewAppointment selectedEquipment={selectedEquipment} />
+              <NewAppointment
+                selectedEquipment={selectedEquipment}
+              />
             )}
           </div>
         )}
