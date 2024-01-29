@@ -28,6 +28,18 @@ const NewAppointment = ({ selectedEquipment, companyData, loggedUser}) => {
     user: null,
   });
 
+  const [reservation, setReservation] = useState({
+    status: "In progress",
+    appointment: {
+      id: "",
+      date: "",
+      time: "",
+      duration: "",
+      isCompanyAppointment: "",
+    },
+    user: loggedUser,
+  });
+
   toastr.options = {
     positionClass: "toast-top-right",
     hideDuration: 300,
@@ -87,10 +99,42 @@ const NewAppointment = ({ selectedEquipment, companyData, loggedUser}) => {
         });
   
         if (response.ok) {
-          const data = await response.json();
-          console.log("Appointment created successfully:", data);
+          const appointment = await response.json();
+          console.log("Appointment created successfully:", appointment);
           toastr.success("Appointment created successfully");
-        } else {
+          try {
+            const dataToSend = { ...reservation, appointment, equipments: [...selectedEquipment] };
+            const response = await fetch(
+              "http://localhost:8090/api/v1/reservation/save",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify(dataToSend),
+              }
+            );
+          
+            if (response.ok) {
+              const data = await response.json();
+              console.log("Reservation created successfully:", data);
+              toastr.success("Reservation created successfully");
+              // Handle success (e.g., redirect to a success page)
+            } else {
+              const errorData = await response.json();
+              console.error(
+                "Error creating reservation:",
+                response.statusText,
+                errorData
+              );
+              // Handle error (e.g., show an error message)
+            }
+    
+          } catch (error) {
+            console.error("Error creating reservation:", error);
+          }
+          } else {
           const errorData = await response.json();
           console.error(
             "Error creating reservation:",
@@ -98,9 +142,11 @@ const NewAppointment = ({ selectedEquipment, companyData, loggedUser}) => {
             errorData
           );
         }
-      } catch (error) {
-        console.error("Error creating reservation:", error);
-      }
+        } catch (error) {
+            console.error("Error creating reservation:", error);
+            // Handle other errors
+        }
+      
     };
 
   return (
