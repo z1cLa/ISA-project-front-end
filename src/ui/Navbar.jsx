@@ -38,22 +38,22 @@ const Navbar = ({ loggedUserParam }) => {
               <Link to="/search-companies">Search Companies</Link>
 
               <Link to="/user-reservations">My Reservations</Link>
-              <Link to="/company-reservations">Company Reservations</Link>
-
+              
               </div>
       )}
 
         {loggedUser?.roles[0].name.includes('ROLE_ADMIN') && (
               <div>
-              <Link to="/add-company">Add Company</Link>
               <Link to="/company">Your company</Link>
               <Link to="/add-appointment">Add Appointment</Link>
+              <Link to="/company-reservations">Company Reservations</Link>
               </div>
       )}
 
         {loggedUser?.roles[0].name.includes('ROLE_SYSADMIN') && (
               <div>
               <Link to="/make-user-admin">Manage Admins</Link>
+              <Link to="/add-company">Add Company</Link>
               </div>
       )}
 

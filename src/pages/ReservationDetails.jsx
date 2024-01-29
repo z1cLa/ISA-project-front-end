@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./ReservationDetails.css";
+import useAuth from "../hooks/useAuth";
 
-function ReservationDetails({ loggedUser }) {
+function ReservationDetails() {
   let { id } = useParams();
 
   const [reservation, setReservation] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { loggedUser, setLoggedUser } = useAuth();
 
   useEffect(() => {
     const fetchReservationData = async () => {
@@ -55,7 +57,7 @@ function ReservationDetails({ loggedUser }) {
 
   // Formatting date
   const formattedDate = date ? new Date(date).toLocaleDateString() : "N/A";
-
+  
   return (
     <div className="container">
       <h2>Reservation Details</h2>
@@ -80,6 +82,13 @@ function ReservationDetails({ loggedUser }) {
       <p>
         <strong>Duration (hours):</strong> {duration}
       </p>
+
+      {loggedUser?.roles[0].name.includes('ROLE_ADMIN') && (
+          <button>
+            Finish reservation
+          </button>
+      )}
+
     </div>
   );
 }
