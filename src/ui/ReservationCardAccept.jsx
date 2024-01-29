@@ -32,9 +32,16 @@ const ReservationCard = ({
           },
         }
       );
-      toastr.success("Reservation accepted succesfully");
-      console.log("RES:", reservation.appointment.id);
-      navigate("/");
+
+      if(response.ok) {
+        toastr.success("Reservation accepted succesfully");
+        navigate("/");      
+      }
+      else {
+        console.error("Error cancelling reservation:", await response.text());
+      }
+
+
     } catch (error) {
       console.error("Error cancelling reservation:", error);
     }
