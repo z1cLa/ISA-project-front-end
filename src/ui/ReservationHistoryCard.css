@@ -1,0 +1,13 @@
+.reservation-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px;
+    width: 80%; /* Make the card take full width of the grid column */
+    text-align: center;
+  }
+  
+  .reservation-card h3 {
+    color: #333;
+    margin-bottom: 10px;
+  }

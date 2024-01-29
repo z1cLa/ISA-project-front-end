@@ -1,0 +1,10 @@
+.reservations-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Creates 3 columns */
+    gap: 20px; /* Space between grid items */
+    justify-content: center; /* Center grid items horizontally */
+    padding: 10px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
