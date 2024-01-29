@@ -97,9 +97,13 @@ function App() {
                 path="/company-reservations"
                 element={<CompanyReservations loggedUser={loggedUser} />}
               />
+              <Route
+                path="/taking-equipment"
+                element={<TakingEquipment loggedUser={loggedUser}/>}
+              />
             </Route>
 
-            {/* FOR ADMIN */}
+            {/* FOR SYSTEM ADMIN */}
             <Route
               element={
                 <RequireAuth
@@ -113,10 +117,7 @@ function App() {
                 element={<MakeUserAdmin />}
               />
               <Route path="/add-company" element={<AddCompany />} />
-              <Route
-                path="/taking-equipment"
-                element={<TakingEquipment loggedUser={loggedUser}/>}
-              />
+
             </Route>
 
           </Route>
