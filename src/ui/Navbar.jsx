@@ -37,7 +37,9 @@ const Navbar = ({ loggedUserParam }) => {
               <Link to="/search-companies">Search Companies</Link>
 
               <Link to="/user-reservations">My Reservations</Link>
-              
+              <Link to="/company-reservations">Company Reservations</Link>
+              <Link to="/reservation-history">Reservation History</Link>
+
               </div>
       )}
 

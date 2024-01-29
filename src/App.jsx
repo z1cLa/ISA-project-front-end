@@ -26,6 +26,7 @@ import UserReservations from "./pages/UserReservations";
 import CompanyReservations from "./pages/CompanyReservations";
 import MakeUserAdmin from "./pages/MakeUserAdmin";
 import TakingEquipment from "./pages/TakingEquipment";
+import ReservationHistory from "./pages/ReservationHistory";
 
 function App() {
   const { loggedUser, setLoggedUser } = useAuth();
@@ -64,6 +65,11 @@ function App() {
               <Route
                 path="/user-reservations"
                 element={<UserReservations loggedUser={loggedUser} />}
+              />
+
+              <Route
+                path="/reservation-history"
+                element={<ReservationHistory loggedUser={loggedUser} />}
               />
 
             </Route>
