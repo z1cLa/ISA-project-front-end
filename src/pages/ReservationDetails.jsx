@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./ReservationDetails.css";
 import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import toastr from "toastr";
 
 function ReservationDetails() {
   let { id } = useParams();
@@ -10,6 +12,7 @@ function ReservationDetails() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { loggedUser, setLoggedUser } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchReservationData = async () => {
@@ -37,6 +40,35 @@ function ReservationDetails() {
 
     fetchReservationData();
   }, [id]); // Dependency array with id to re-fetch if id changes
+
+
+  const acceptReservation = async (id) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8090/api/v1/reservation/finish/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if(response.ok) {
+        toastr.success("Reservation accepted succesfully");
+        navigate("/");      
+      }
+      else {
+        console.error("Error cancelling reservation:", await response.text());
+        toastr.error("Reservation could not be accepted because it is not in the IN PROGRESS state")
+      }
+
+
+    } catch (error) {
+      console.error("Error cancelling reservation:", error);
+    }
+  };
+
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -82,12 +114,11 @@ function ReservationDetails() {
       <p>
         <strong>Duration (hours):</strong> {duration}
       </p>
-
-      {loggedUser?.roles[0].name.includes('ROLE_ADMIN') && (
-          <button>
-            Finish reservation
-          </button>
-      )}
+        {loggedUser?.roles[0].name.includes('ROLE_ADMIN') && reservation.status === 'In progress' && (
+          <button  className="accept-btn" onClick={() => acceptReservation(reservation.id)}>
+          Finish reservation
+        </button>
+)}
 
     </div>
   );
