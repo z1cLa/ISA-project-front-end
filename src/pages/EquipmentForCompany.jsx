@@ -151,7 +151,6 @@ const EquipmentForCompany = ({ loggedUser }) => {
   }, [loggedUser.id, companyId]);
 
   useEffect(() => {
-    console.log("LU: ", loggedUser);
     const fetchUserData = async () => {
       setFormData((prevData) => ({
         ...prevData,
@@ -224,7 +223,7 @@ const EquipmentForCompany = ({ loggedUser }) => {
       if (response.ok) {
         const data = await response.json();
         console.log("Reservation created successfully:", data);
-        toastr.success('Appointment created successfuly')
+        toastr.success("Appointment created successfuly");
         // Handle success (e.g., redirect to a success page)
       } else {
         const errorData = await response.json();

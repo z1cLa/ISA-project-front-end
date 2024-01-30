@@ -82,6 +82,8 @@ const Register = () => {
     ) {
       return;
     }
+    toastr.success("Check " + formData.email + " to verify your account.");
+    navigate("/");
     const response = await fetch("http://localhost:8090/api/v1/auth/register", {
       method: "POST",
       headers: {
@@ -89,10 +91,6 @@ const Register = () => {
       },
       body: JSON.stringify(formData),
     });
-    const data = await response.json();
-    console.log(data);
-    toastr.success("Check " + formData.email + " to verify your account.");
-    navigate("/");
   };
 
   return (
