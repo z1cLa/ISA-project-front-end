@@ -40,6 +40,7 @@ const Navbar = ({ loggedUserParam }) => {
               <Link to="/user-reservations">My Reservations</Link>
               <Link to="/company-reservations">Company Reservations</Link>
               <Link to="/reservation-history">Reservation History</Link>
+              <Link to="/QR-codes">QR codes</Link>
 
               </div>
       )}

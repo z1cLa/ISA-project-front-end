@@ -1,0 +1,38 @@
+.QRCodes-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adjust the space between QR codes */
+    justify-content: flex-start; /* Start items from the left side */
+  }
+  
+  .QRCode-item {
+    width: calc(25% - 20px); /* 25% width for 4 items in a row with gap */
+    padding: 10px;
+    box-sizing: border-box; /* Include padding in the width */
+    border: 1px solid #ccc; /* Add a border for separation */
+    text-align: center; /* Center the content within each QR code item */
+  }
+
+  .filter-container {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center horizontally */
+    text-align: center; /* Align text center within the container */
+  }
+  
+  .filter-label {
+    margin-right: 10px;
+    font-size: 24px; /* Increased font size */
+    color: #333;
+  }
+  
+  .filter-select {
+    padding: 6px; /* Adjusted padding to make it smaller */
+    font-size: 12px; /* Adjusted font size */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #555;
+    cursor: pointer;
+  }

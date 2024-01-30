@@ -27,6 +27,7 @@ import CompanyReservations from "./pages/CompanyReservations";
 import MakeUserAdmin from "./pages/MakeUserAdmin";
 import TakingEquipment from "./pages/TakingEquipment";
 import ReservationHistory from "./pages/ReservationHistory";
+import QRCodes from "./pages/QRCodes";
 
 function App() {
   const { loggedUser, setLoggedUser } = useAuth();
@@ -70,6 +71,11 @@ function App() {
               <Route
                 path="/reservation-history"
                 element={<ReservationHistory loggedUser={loggedUser} />}
+              />
+
+              <Route
+                path="/QR-codes"
+                element={<QRCodes loggedUser={loggedUser} />}
               />
 
             </Route>
