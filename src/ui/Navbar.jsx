@@ -25,8 +25,9 @@ const Navbar = ({ loggedUserParam }) => {
         
        {!loggedUser && (
         <div>
+        <Link to="/search-companies">Search Companies</Link> 
         <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>    
+        <Link to="/register">Register</Link>   
         </div>
         )}
         
