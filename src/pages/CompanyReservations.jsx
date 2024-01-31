@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ReservationCard from "../ui/ReservationCard";
+import ReservationCompanyCard from "../ui/ReservationCompanyCard";
 import "./CompanyReservations.css";
 
 function CompanyReservations({ loggedUser }) {
@@ -76,7 +76,7 @@ function CompanyReservations({ loggedUser }) {
     <div className="reservations-container">
       {reservations.length > 0 ? (
         reservations.map((reservation) => (
-          <ReservationCard
+          <ReservationCompanyCard
             key={reservation.id}
             reservation={reservation}
             loggedUser={loggedUser}

@@ -8,3 +8,26 @@
     margin-left: auto;
     margin-right: auto;
   }
+  
+  .sorting-buttons-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Adjust the space between buttons */
+    margin-top: 20px; /* Add margin at the top for separation from reservation cards */
+  }
+  
+  .sorting-buttons-row button {
+    flex: 1;
+    min-width: 150px; /* Set a minimum width for the buttons */
+    padding: 10px;
+    font-size: 16px; /* Adjust font size if needed */
+    color: #fff; /* Set text color to white */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .sorting-buttons-row button:hover {
+    background-color: #006400; /* Dark green color on hover */
+  }
