@@ -25,20 +25,22 @@ const Navbar = ({ loggedUserParam }) => {
         
        {!loggedUser && (
         <div>
+        <Link to="/search-companies">Search Companies</Link> 
         <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>    
+        <Link to="/register">Register</Link>   
         </div>
         )}
         
         {loggedUser?.roles[0].name.includes('ROLE_USER') && (
               <div>
+              <Link to="/Change-password">Change Password</Link>
               <Link to="/edit-account">Edit Account</Link>
               <Link to="/search-equipment">Search Equipment</Link>
               <Link to="/search-companies">Search Companies</Link>
 
               <Link to="/user-reservations">My Reservations</Link>
-              <Link to="/company-reservations">Company Reservations</Link>
               <Link to="/reservation-history">Reservation History</Link>
+              <Link to="/QR-codes">QR Codes</Link>
 
               </div>
       )}

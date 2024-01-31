@@ -112,6 +112,7 @@ const EditAccount = ({ loggedUser }) => {
     toastr.success("Updated");
     const data = await response.json();
     console.log(data);
+    navigate("/");
   };
 
   return (
