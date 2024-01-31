@@ -53,7 +53,7 @@ function TakingEquipment({ loggedUser }) {
           />
         ))
       ) : (
-        <div>No reservations found.</div>
+        <div>No in-progress reservations found.</div>
       )}
     </div>
   );
