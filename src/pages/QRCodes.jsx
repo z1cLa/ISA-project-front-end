@@ -36,7 +36,7 @@ function QRCodes({ loggedUser }) {
   const filteredReservations = statusFilter
     ? reservations.filter((reservation) =>
         statusFilter === "Odbijen"
-          ? ["declined", "canceled"].includes(reservation.status)
+          ? ["Declined", "Canceled"].includes(reservation.status)
           : reservation.status === statusFilter
       )
     : reservations;
@@ -74,7 +74,7 @@ function QRCodes({ loggedUser }) {
                 >
                 <option value="">All</option>
                 <option value="In progress">Nov</option>
-                <option value="finished">Obradjen</option>
+                <option value="Finished">Obradjen</option>
                 <option value="Odbijen">Odbijen</option>
             </select>
         </div>
