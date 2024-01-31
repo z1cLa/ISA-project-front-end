@@ -29,6 +29,7 @@ import TakingEquipment from "./pages/TakingEquipment";
 import ReservationHistory from "./pages/ReservationHistory";
 import QRCodes from "./pages/QRCodes";
 import ChangeUserPassword from "./pages/ChangeUserPassword";
+import CompanyReservationsUserList from "./pages/CompanyReservationsUserList";
 
 function App() {
   const { loggedUser, setLoggedUser } = useAuth();
@@ -130,6 +131,10 @@ function App() {
               <Route
                 path="/taking-equipment"
                 element={<TakingEquipment loggedUser={loggedUser} />}
+              />
+              <Route
+                path="/company-reservations-user-list"
+                element={<CompanyReservationsUserList loggedUser={loggedUser} />}
               />
             </Route>
 

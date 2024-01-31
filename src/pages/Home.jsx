@@ -19,7 +19,7 @@ function Home({loggedUser}) {
         {loggedUser?.roles[0].name.includes('ROLE_ADMIN') && (
          
           <div className="adminContainer">
-             <Link className="linkk" to="/edit-account">
+             <Link className="linkk" to="/company-reservations-user-list">
           <div class="cardd">
               <h3 class="cardd__title">List of customers
               </h3>
