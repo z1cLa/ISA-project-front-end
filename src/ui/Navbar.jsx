@@ -44,15 +44,7 @@ const Navbar = ({ loggedUserParam }) => {
           </div>
         )}
 
-        {loggedUser?.roles[0].name.includes("ROLE_USER") && (
-          <div>
-            <Link to="/edit-account">Edit Account</Link>
 
-            <Link to="/user-reservations">My Reservations</Link>
-            <Link to="/company-reservations">Company Reservations</Link>
-            <Link to="/reservation-history">Reservation History</Link>
-          </div>
-        )}
 
         {loggedUser?.roles[0].name.includes("ROLE_ADMIN") && (
           <div>
