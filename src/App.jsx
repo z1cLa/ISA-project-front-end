@@ -28,6 +28,7 @@ import MakeUserAdmin from "./pages/MakeUserAdmin";
 import TakingEquipment from "./pages/TakingEquipment";
 import ReservationHistory from "./pages/ReservationHistory";
 import QRCodes from "./pages/QRCodes";
+import ChangeUserPassword from "./pages/ChangeUserPassword";
 
 function App() {
   const { loggedUser, setLoggedUser } = useAuth();
@@ -76,6 +77,11 @@ function App() {
               <Route
                 path="/QR-codes"
                 element={<QRCodes loggedUser={loggedUser} />}
+              />
+
+              <Route
+                path="/Change-password"
+                element={<ChangeUserPassword loggedUser={loggedUser} />}
               />
 
             </Route>

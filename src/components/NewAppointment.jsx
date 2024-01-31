@@ -120,6 +120,7 @@ const NewAppointment = ({ selectedEquipment, companyData, loggedUser}) => {
               const data = await response.json();
               console.log("Reservation created successfully:", data);
               toastr.success("Reservation created successfully");
+              navigate("/");
               // Handle success (e.g., redirect to a success page)
             } else {
               const errorData = await response.json();
