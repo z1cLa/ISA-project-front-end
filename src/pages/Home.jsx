@@ -19,7 +19,7 @@ function Home({loggedUser}) {
         {loggedUser?.roles[0].name.includes('ROLE_ADMIN') && (
          
           <div className="adminContainer">
-             <Link className="linkk" to="/company-reservations-user-list">
+             <a className="linkk" to="/company-reservations-user-list">
           <div class="cardd">
               <h3 class="cardd__title">List of customers
               </h3>
@@ -30,9 +30,9 @@ function Home({loggedUser}) {
                   </svg>
               </div>
           </div>
-          </Link>
+          </a>
 
-          <Link className="linkk" to="/taking-equipment">
+          <a className="linkk" to="/taking-equipment">
           <div class="cardd">
               <h3 class="cardd__title">Equipment information
               </h3>
@@ -43,9 +43,9 @@ function Home({loggedUser}) {
                   </svg>
               </div>
           </div>
-          </Link>
+          </a>
 
-          <Link className="linkk" to="/company-reservations">
+          <a className="linkk" to="/company-reservations">
           <div class="cardd">
               <h3 class="cardd__title">Work calendar
               </h3>
@@ -56,9 +56,9 @@ function Home({loggedUser}) {
                   </svg>
               </div>
           </div>
-          </Link>
+          </a>
 
-          <Link className="linkk" to="/add-appointment">
+          <a className="linkk" to="/add-appointment">
           <div class="cardd">
               <h3 class="cardd__title">Add appointment
               </h3>
@@ -69,7 +69,7 @@ function Home({loggedUser}) {
                   </svg>
               </div>
           </div>
-          </Link>
+          </a>
 
           
           <div class="cardd">
@@ -84,7 +84,7 @@ function Home({loggedUser}) {
           </div>
           
 
-          <Link className="linkk" to="/edit-account">
+          <a className="linkk" to="/edit-account">
           <div class="cardd">
               <h3 class="cardd__title">Your profile
               </h3>
@@ -95,7 +95,7 @@ function Home({loggedUser}) {
                   </svg>
               </div>
           </div>
-          </Link>
+          </a>
 
           </div>  
           )}
