@@ -64,7 +64,9 @@ const MakeUserAdmin = () => {
           onChange={(e) => setSelectedUserId(e.target.value)}
         >
           <option value={null}>Select User</option>
-          {users.map((user) => (
+          {users
+          .filter(user => user.roles[0].name.includes('ROLE_USER'))
+          .map((user) => (
             <option key={user.id} value={user.id}>
               {user.firstName} {user.lastName}
             </option>
