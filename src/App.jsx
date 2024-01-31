@@ -44,10 +44,17 @@ function App() {
               path="/login"
               element={<Login setLoggedUser={setLoggedUser} />}
             />
+            <Route path="/search-equipment" element={<SearchEquipment />} />
             <Route path="/reservation/:id" element={<ReservationDetails />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
-            <Route path="/edit-account" element={<EditAccount loggedUser={loggedUser}/>} />
-            <Route path="/search-companies" element={<SearchCompanies />} />
+            <Route
+              path="/edit-account"
+              element={<EditAccount loggedUser={loggedUser} />}
+            />
+            <Route
+              path="/search-companies"
+              element={<SearchCompanies loggedUser={loggedUser} />}
+            />
 
             {/* FOR USER */}
             <Route
@@ -94,13 +101,18 @@ function App() {
                 />
               }
             >
-              <Route path="/edit-company" element={<UpdateCompany loggedUser={loggedUser}/>} />
+              <Route
+                path="/edit-company"
+                element={<UpdateCompany loggedUser={loggedUser} />}
+              />
               <Route
                 path="/add-appointment"
                 element={<AddAppointment loggedUser={loggedUser} />}
               />
-              <Route path="/company"  element={<CompanyOverview loggedUser={loggedUser}/>} />
-              <Route path="/search-equipment" element={<SearchEquipment />} />
+              <Route
+                path="/company"
+                element={<CompanyOverview loggedUser={loggedUser} />}
+              />
               <Route path="/edit-equipment/:id" element={<UpdateEquipment />} />
               <Route
                 path="/add-equipment/:companyId"
@@ -117,7 +129,7 @@ function App() {
               />
               <Route
                 path="/taking-equipment"
-                element={<TakingEquipment loggedUser={loggedUser}/>}
+                element={<TakingEquipment loggedUser={loggedUser} />}
               />
             </Route>
 
@@ -130,14 +142,9 @@ function App() {
                 />
               }
             >
-              <Route
-                path="/make-user-admin"
-                element={<MakeUserAdmin />}
-              />
+              <Route path="/make-user-admin" element={<MakeUserAdmin />} />
               <Route path="/add-company" element={<AddCompany />} />
-
             </Route>
-
           </Route>
         </Routes>
       </AuthProvider>

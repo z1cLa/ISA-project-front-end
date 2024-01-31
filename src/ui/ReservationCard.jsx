@@ -81,6 +81,12 @@ const ReservationCard = ({
         <strong>Duration:</strong> {reservation.appointment.duration} hours
       </p>
       <button
+        onClick={() => navigate(`/reservation/${reservation.id}`)}
+        className="accept-btn"
+      >
+        Details
+      </button>
+      <button
         onClick={() => cancelReservation(reservation.id)}
         className="cancel-btn"
       >

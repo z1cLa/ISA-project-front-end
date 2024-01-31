@@ -5,7 +5,7 @@ import toastr from "toastr";
 import "toastr/build/toastr.css";
 import { useNavigate } from "react-router-dom";
 
-const SearchCompanies = () => {
+const SearchCompanies = ({ loggedUser }) => {
   const [searchTermName, setSearchTermName] = useState("");
   const [searchTermPlace, setSearchTermPlace] = useState("");
   const [companyList, setCompanyList] = useState([]);
@@ -165,9 +165,11 @@ const SearchCompanies = () => {
               <p>Name: {company.companyName}</p>
               <p>Address: {company.address}</p>
               <p>Average Grade: {company.averageGrade}</p>
-              <button onClick={() => handleNavigateToEquipment(company.id)}>
-                View Equipment
-              </button>
+              {loggedUser && (
+                <button onClick={() => handleNavigateToEquipment(company.id)}>
+                  View Equipment
+                </button>
+              )}
             </div>
           ))}
         </div>
