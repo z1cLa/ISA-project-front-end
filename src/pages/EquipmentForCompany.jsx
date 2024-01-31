@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./EquipmentForCompany.css";
 import toastr from "toastr";
 import NewAppointment from "../components/NewAppointment";
@@ -12,6 +12,10 @@ const EquipmentForCompany = ({ loggedUser }) => {
   const [appointmentList, setAppointmentList] = useState([]);
   const [step, setStep] = useState(0);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [selectedEquipmentQuantity, setSelectedEquipmentQuantity] = useState(
+    {}
+  );
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     status: "In progress",
     appointment: {
@@ -205,7 +209,15 @@ const EquipmentForCompany = ({ loggedUser }) => {
   const handleReserve = async (e) => {
     e.preventDefault();
 
-    const dataToSend = { ...formData, equipments: [...selectedEquipment] };
+    const dataToSend = {
+      ...formData,
+      equipments: selectedEquipment.map((equipment) => ({
+        id: equipment.id,
+        //quantity: selectedEquipmentQuantity[equipment.id], // Include quantity
+      })),
+    };
+    toastr.success("Reservation created successfuly");
+    navigate("/");
 
     try {
       const response = await fetch(
@@ -223,7 +235,6 @@ const EquipmentForCompany = ({ loggedUser }) => {
       if (response.ok) {
         const data = await response.json();
         console.log("Reservation created successfully:", data);
-        toastr.success("Appointment created successfuly");
         // Handle success (e.g., redirect to a success page)
       } else {
         const errorData = await response.json();
@@ -238,6 +249,28 @@ const EquipmentForCompany = ({ loggedUser }) => {
       console.error("Error creating reservation:", error);
       // Handle other errors
     }
+  };
+
+  useEffect(() => {
+    const initialQuantity = selectedEquipment.reduce((acc, item) => {
+      acc[item.id] = 1; // Default quantity is set to 1
+      return acc;
+    }, {});
+    setSelectedEquipmentQuantity(initialQuantity);
+  }, [selectedEquipment]);
+
+  const handleIncrementQuantity = (id) => {
+    setSelectedEquipmentQuantity((prevQuantity) => ({
+      ...prevQuantity,
+      [id]: Math.min(prevQuantity[id] + 1, 100), // Maximum quantity is set to 100
+    }));
+  };
+
+  const handleDecrementQuantity = (id) => {
+    setSelectedEquipmentQuantity((prevQuantity) => ({
+      ...prevQuantity,
+      [id]: Math.max(prevQuantity[id] - 1, 1), // Minimum quantity is set to 1
+    }));
   };
 
   if (!company) {
@@ -279,17 +312,36 @@ const EquipmentForCompany = ({ loggedUser }) => {
             <ul>
               {selectedEquipment.map((selectedItem) => (
                 <li key={selectedItem.id}>
-                  <p>Equipment Name: {selectedItem.equipmentName}</p>
-                  <p>Category: {selectedItem.equipmentDescription}</p>
-                  <p>Price: {selectedItem.equipmentPrice}</p>
+                  <div className="equipment-info">
+                    <p>Equipment Name: {selectedItem.equipmentName}</p>
+                    <p>Category: {selectedItem.equipmentDescription}</p>
+                    <p>Price: {selectedItem.equipmentPrice}</p>
+                  </div>
+                  <div className="quantity-controls">
+                    <button
+                      className="quantity-button decrement"
+                      onClick={() => handleDecrementQuantity(selectedItem.id)}
+                    >
+                      -
+                    </button>
+                    <p>
+                      Quantity: {selectedEquipmentQuantity[selectedItem.id]}
+                    </p>
+                    <button
+                      className="quantity-button increment"
+                      onClick={() => handleIncrementQuantity(selectedItem.id)}
+                    >
+                      +
+                    </button>
+                  </div>
                   <button
+                    className="remove-button"
                     onClick={() =>
                       handleRemoveFromSelectedEquipment(selectedItem.id)
                     }
                   >
                     Remove from Selected
                   </button>
-                  {/* Add other details for selected equipment */}
                 </li>
               ))}
             </ul>

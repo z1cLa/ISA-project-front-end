@@ -22,44 +22,40 @@ const Navbar = ({ loggedUserParam }) => {
         />
       </Link>
       <div className="nav-links">
-        
-       {!loggedUser && (
-        <div>
-        <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>    
-        </div>
+        {!loggedUser && (
+          <div>
+            <Link to="/search-equipment">Search Equipment</Link>
+            <Link to="/search-companies">Search Companies</Link>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+          </div>
         )}
-        
-        {loggedUser?.roles[0].name.includes('ROLE_USER') && (
-              <div>
-              <Link to="/edit-account">Edit Account</Link>
-              <Link to="/search-equipment">Search Equipment</Link>
-              <Link to="/search-companies">Search Companies</Link>
 
-              <Link to="/user-reservations">My Reservations</Link>
-              <Link to="/company-reservations">Company Reservations</Link>
-              <Link to="/reservation-history">Reservation History</Link>
+        {loggedUser?.roles[0].name.includes("ROLE_USER") && (
+          <div>
+            <Link to="/edit-account">Edit Account</Link>
 
-              </div>
-      )}
+            <Link to="/user-reservations">My Reservations</Link>
+            <Link to="/company-reservations">Company Reservations</Link>
+            <Link to="/reservation-history">Reservation History</Link>
+          </div>
+        )}
 
-        {loggedUser?.roles[0].name.includes('ROLE_ADMIN') && (
-              <div>
-              <Link to="/company">Your company</Link>
-              <Link to="/add-appointment">Add Appointment</Link>
-              <Link to="/company-reservations">Company Reservations</Link>
-              <Link to="/taking-equipment">Take equipment</Link>
-              </div>
-      )}
+        {loggedUser?.roles[0].name.includes("ROLE_ADMIN") && (
+          <div>
+            <Link to="/company">Your company</Link>
+            <Link to="/add-appointment">Add Appointment</Link>
+            <Link to="/company-reservations">Company Reservations</Link>
+            <Link to="/taking-equipment">Take equipment</Link>
+          </div>
+        )}
 
-        {loggedUser?.roles[0].name.includes('ROLE_SYSADMIN') && (
-              <div>
-              <Link to="/make-user-admin">Manage Admins</Link>
-              <Link to="/add-company">Add Company</Link>
-              </div>
-      )}
-
-        
+        {loggedUser?.roles[0].name.includes("ROLE_SYSADMIN") && (
+          <div>
+            <Link to="/make-user-admin">Manage Admins</Link>
+            <Link to="/add-company">Add Company</Link>
+          </div>
+        )}
       </div>
       {loggedUser && (
         <div className="nav-user-info">
